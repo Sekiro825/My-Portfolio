@@ -3,29 +3,30 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: Arial, sans-serif;
+  font-family: 'Poppins', sans-serif;
 }
 
 /* Body Styling */
 body {
-  background-color: #f0f2f5;
+  background: linear-gradient(135deg, #f0f2f5, #e0e7ff);
   color: #333;
-  line-height: 1.6;
   font-size: 16px;
   display: flex;
   justify-content: center;
+  align-items: center;
+  min-height: 100vh;
 }
 
 /* Container */
 .App {
-  width: 80%;
+  width: 85%;
   max-width: 1000px;
-  padding: 20px;
-  background-color: #fff;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-  border-radius: 8px;
-  margin-top: 20px;
+  padding: 30px;
+  background-color: #ffffff;
+  border-radius: 15px;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
   animation: fadeIn 1s ease-in-out;
+  overflow: hidden;
 }
 
 /* Header */
@@ -34,62 +35,55 @@ header {
   justify-content: space-between;
   align-items: center;
   padding: 10px 0;
-  border-bottom: 2px solid #ddd;
+  border-bottom: 1px solid #ddd;
+  margin-bottom: 20px;
 }
 
 header h1 {
-  font-size: 2.5rem;
+  font-size: 2.8rem;
   color: #333;
+  font-weight: bold;
+  background: -webkit-linear-gradient(#007acc, #005ea8);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
 header button {
-  padding: 10px 20px;
-  background-color: #007acc;
+  padding: 12px 25px;
+  background: linear-gradient(135deg, #007acc, #005ea8);
   color: #fff;
   border: none;
-  border-radius: 5px;
+  border-radius: 25px;
   cursor: pointer;
   font-size: 1rem;
-  transition: background-color 0.3s ease;
+  font-weight: bold;
+  transition: background-color 0.3s ease, transform 0.2s;
 }
 
 header button:hover {
-  background-color: #005ea8;
+  transform: scale(1.05);
+  background: linear-gradient(135deg, #005ea8, #007acc);
 }
 
 /* Section Styling */
 section {
   padding: 20px 0;
-  border-bottom: 1px solid #ddd;
+  margin-bottom: 20px;
 }
 
 section h2 {
   font-size: 2rem;
   color: #333;
   margin-bottom: 10px;
-}
-
-section p, section ul {
-  font-size: 1rem;
-  color: #666;
-  margin-bottom: 10px;
-}
-
-section ul li {
-  list-style-type: disc;
-  margin-left: 20px;
-}
-
-/* Interactive Effects for Sections */
-section h2 {
   position: relative;
+  padding-bottom: 5px;
 }
 
 section h2::after {
   content: '';
   position: absolute;
   left: 0;
-  bottom: -5px;
+  bottom: 0;
   width: 50px;
   height: 3px;
   background-color: #007acc;
@@ -100,27 +94,39 @@ section h2:hover::after {
   width: 100%;
 }
 
+section p, section ul {
+  font-size: 1rem;
+  color: #555;
+  margin-bottom: 10px;
+}
+
+section ul li {
+  list-style-type: circle;
+  margin-left: 20px;
+}
+
 /* Project Cards */
 section div {
-  background-color: #fafafa;
-  padding: 15px;
-  border-radius: 8px;
+  background: #f9faff;
+  padding: 20px;
+  border-radius: 12px;
   margin-bottom: 15px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  transition: transform 0.3s ease;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 section div:hover {
-  transform: translateY(-5px);
+  transform: translateY(-8px);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
 }
 
 section div h3 {
-  font-size: 1.5rem;
+  font-size: 1.6rem;
   color: #007acc;
   margin-bottom: 5px;
 }
 
-/* Link Styling */
+/* Links */
 a {
   color: #007acc;
   text-decoration: none;
@@ -131,35 +137,50 @@ a:hover {
   text-decoration: underline;
 }
 
-/* Hover Effect for Skills */
+/* Skills - Interactive Bubble Effect */
 .Skills p span {
   display: inline-block;
-  transition: transform 0.2s;
+  padding: 5px 8px;
+  background-color: #e0e7ff;
+  border-radius: 8px;
+  margin: 3px;
+  transition: background-color 0.3s ease, transform 0.2s;
+  cursor: pointer;
 }
 
 .Skills p span:hover {
+  background-color: #c0d2ff;
   transform: scale(1.1);
-  color: #005ea8;
+}
+
+/* Footer */
+footer {
+  padding: 20px;
+  text-align: center;
+  font-size: 0.9rem;
+  color: #666;
+  background-color: #f9faff;
+  border-top: 1px solid #ddd;
 }
 
 /* Media Query for Mobile */
 @media (max-width: 768px) {
   .App {
-    width: 90%;
-    padding: 15px;
+    width: 95%;
+    padding: 20px;
   }
 
   header h1 {
-    font-size: 2rem;
+    font-size: 2.2rem;
   }
 
   header button {
-    padding: 8px 16px;
+    padding: 10px 20px;
     font-size: 0.9rem;
   }
 
   section h2 {
-    font-size: 1.75rem;
+    font-size: 1.6rem;
   }
 
   section p, section ul {
@@ -167,7 +188,7 @@ a:hover {
   }
 }
 
-/* Fade-in Animation */
+/* Animations */
 @keyframes fadeIn {
   from { opacity: 0; transform: translateY(-20px); }
   to { opacity: 1; transform: translateY(0); }
