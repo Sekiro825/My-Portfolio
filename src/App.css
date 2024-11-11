@@ -1,38 +1,174 @@
-.App {
-  text-align: center;
+/* General Reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: Arial, sans-serif;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+/* Body Styling */
+body {
+  background-color: #f0f2f5;
+  color: #333;
+  line-height: 1.6;
+  font-size: 16px;
   display: flex;
-  flex-direction: column;
-  align-items: center;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
 }
 
-.App-link {
-  color: #61dafb;
+/* Container */
+.App {
+  width: 80%;
+  max-width: 1000px;
+  padding: 20px;
+  background-color: #fff;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  border-radius: 8px;
+  margin-top: 20px;
+  animation: fadeIn 1s ease-in-out;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
+/* Header */
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 0;
+  border-bottom: 2px solid #ddd;
+}
+
+header h1 {
+  font-size: 2.5rem;
+  color: #333;
+}
+
+header button {
+  padding: 10px 20px;
+  background-color: #007acc;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: background-color 0.3s ease;
+}
+
+header button:hover {
+  background-color: #005ea8;
+}
+
+/* Section Styling */
+section {
+  padding: 20px 0;
+  border-bottom: 1px solid #ddd;
+}
+
+section h2 {
+  font-size: 2rem;
+  color: #333;
+  margin-bottom: 10px;
+}
+
+section p, section ul {
+  font-size: 1rem;
+  color: #666;
+  margin-bottom: 10px;
+}
+
+section ul li {
+  list-style-type: disc;
+  margin-left: 20px;
+}
+
+/* Interactive Effects for Sections */
+section h2 {
+  position: relative;
+}
+
+section h2::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: -5px;
+  width: 50px;
+  height: 3px;
+  background-color: #007acc;
+  transition: width 0.3s ease;
+}
+
+section h2:hover::after {
+  width: 100%;
+}
+
+/* Project Cards */
+section div {
+  background-color: #fafafa;
+  padding: 15px;
+  border-radius: 8px;
+  margin-bottom: 15px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease;
+}
+
+section div:hover {
+  transform: translateY(-5px);
+}
+
+section div h3 {
+  font-size: 1.5rem;
+  color: #007acc;
+  margin-bottom: 5px;
+}
+
+/* Link Styling */
+a {
+  color: #007acc;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+/* Hover Effect for Skills */
+.Skills p span {
+  display: inline-block;
+  transition: transform 0.2s;
+}
+
+.Skills p span:hover {
+  transform: scale(1.1);
+  color: #005ea8;
+}
+
+/* Media Query for Mobile */
+@media (max-width: 768px) {
+  .App {
+    width: 90%;
+    padding: 15px;
   }
-  to {
-    transform: rotate(360deg);
+
+  header h1 {
+    font-size: 2rem;
   }
+
+  header button {
+    padding: 8px 16px;
+    font-size: 0.9rem;
+  }
+
+  section h2 {
+    font-size: 1.75rem;
+  }
+
+  section p, section ul {
+    font-size: 0.9rem;
+  }
+}
+
+/* Fade-in Animation */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-20px); }
+  to { opacity: 1; transform: translateY(0); }
 }
