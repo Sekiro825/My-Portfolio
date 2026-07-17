@@ -1,12 +1,32 @@
 import React from 'react';
 
 const Skills = () => (
-  <section>
+  <section className="Skills">
     <h2>Technical Skills</h2>
-    <p>Languages: Python, Java, C, JavaScript</p>
-    <p>Web Development: HTML, CSS, React, Node.js</p>
-    <p>Databases: MySQL, PostgreSQL</p>
-    <p>Other: MATLAB</p>
+    <div className="row-posters">
+      <div className="row-poster">
+        <h3>Languages</h3>
+        <p>Python</p>
+        <p>Java</p>
+        <p>C</p>
+        <p>JavaScript</p>
+      </div>
+      <div className="row-poster">
+        <h3>Web Development</h3>
+        <p>HTML & CSS</p>
+        <p>React</p>
+        <p>Node.js</p>
+      </div>
+      <div className="row-poster">
+        <h3>Databases</h3>
+        <p>MySQL</p>
+        <p>PostgreSQL</p>
+      </div>
+      <div className="row-poster">
+        <h3>Other</h3>
+        <p>MATLAB</p>
+      </div>
+    </div>
   </section>
 );
 
