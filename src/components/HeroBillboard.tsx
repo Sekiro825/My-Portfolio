@@ -6,6 +6,7 @@ import { ArrowRight, Info, Pause, Play, Github } from "lucide-react";
 import { portfolio } from "@data/portfolio";
 import type { Project } from "@/types/portfolio";
 import { prefersReduced } from "@/lib/motion";
+import Hero3DVisual from "./Hero3DVisual";
 
 type Props = { onOpenModal: (p: Project) => void };
 
@@ -156,18 +157,9 @@ export default function HeroBillboard({ onOpenModal }: Props) {
           </motion.div>
         </div>
 
-        {/* Right: large emoji/visual */}
-        <div className="hidden lg:flex items-center justify-center flex-shrink-0 w-[280px] h-[280px] lg:w-[380px] lg:h-[380px]">
-          <motion.div
-            key={`emoji-${i}`}
-            initial={{ opacity: 0, scale: 0.8, rotate: -5 }}
-            animate={{ opacity: 1, scale: 1, rotate: 0 }}
-            exit={{ opacity: 0, scale: 0.8 }}
-            transition={{ duration: 0.6, ease: [0.22,1,0.36,1] }}
-            className="text-[120px] lg:text-[180px] select-none float"
-          >
-            {proj.backdrop.emoji || "⚡"}
-          </motion.div>
+        {/* Right: large 3D visual */}
+        <div className="hidden lg:flex items-center justify-center flex-shrink-0 w-[280px] h-[280px] lg:w-[380px] lg:h-[380px] relative z-20">
+          <Hero3DVisual emoji={proj.backdrop.emoji || "⚡"} accent={proj.backdrop.accent || "#e50914"} />
         </div>
       </div>
 

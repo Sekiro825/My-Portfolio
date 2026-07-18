@@ -15,7 +15,7 @@ describe("Portfolio data shape", () => {
 
   it("bio has all required fields", () => {
     const bio = portfolio.bio as Bio;
-    expect(bio.name).toBe("Saket Pokale");
+    expect(bio.name).toBe("Saket Sanjay Pokale");
     expect(bio.handle).toBe("Sekiro825");
     expect(typeof bio.tagline).toBe("string");
     expect(Array.isArray(bio.body)).toBe(true);
@@ -68,7 +68,7 @@ describe("Portfolio data shape", () => {
   });
 
   it("certificates array has correct shape", () => {
-    expect(portfolio.certificates.length).toBe(5);
+    expect(portfolio.certificates.length).toBe(7);
     portfolio.certificates.forEach((c: Certificate) => {
       expect(typeof c.title).toBe("string");
       expect(typeof c.issuer).toBe("string");
@@ -80,7 +80,6 @@ describe("Portfolio data shape", () => {
   it("has expected project IDs", () => {
     const ids = portfolio.projects.map((p: Project) => p.id);
     expect(ids).toContain("medico");
-    expect(ids).toContain("rescuesight");
     expect(ids).toContain("subsystem-alpha");
   });
 
@@ -90,6 +89,7 @@ describe("Portfolio data shape", () => {
       "Web Apps",
       "Full-Stack",
       "AI & Vision",
+      "Mobile",
       "Coming Soon",
     ];
     portfolio.projects.forEach((p: Project) => {

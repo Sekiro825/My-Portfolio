@@ -8,6 +8,7 @@ vi.mock("framer-motion", () => ({
     div: ({ children, ...props }: any) => React.createElement("div", props, children),
     span: ({ children, ...props }: any) => React.createElement("span", props, children),
     h1: ({ children, ...props }: any) => React.createElement("h1", props, children),
+    h2: ({ children, ...props }: any) => React.createElement("h2", props, children),
     p: ({ children, ...props }: any) => React.createElement("p", props, children),
     button: ({ children, ...props }: any) => React.createElement("button", props, children),
     article: ({ children, ...props }: any) => React.createElement("article", props, children),

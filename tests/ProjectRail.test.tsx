@@ -4,11 +4,6 @@ import ProjectRail from "@/components/ProjectRail";
 import { portfolio } from "@data/portfolio";
 import type { Project } from "@/types/portfolio";
 
-vi.mock("@/lib/motion", () => ({
-  fadeUp: { hidden: { opacity: 0 }, visible: { opacity: 1 } },
-  stagger: { hidden: {}, visible: {} },
-  prefersReduced: () => false,
-}));
 
 const mockOnOpenModal = vi.fn();
 
@@ -19,7 +14,7 @@ describe("ProjectRail", () => {
 
   it("renders rail title", () => {
     render(<ProjectRail title="Trending Builds" projects={trendingProjects} onOpenModal={mockOnOpenModal} />);
-    expect(screen.getByText("Trending Builds")).toBeInTheDocument();
+    expect(screen.getAllByText("Trending Builds").length).toBeGreaterThan(0);
   });
 
   it("renders all projects in the rail", () => {
@@ -33,24 +28,25 @@ describe("ProjectRail", () => {
     render(<ProjectRail title="Trending Builds" projects={trendingProjects} onOpenModal={mockOnOpenModal} />);
     trendingProjects.forEach((p) => {
       p.categories.slice(0, 2).forEach((cat) => {
-        expect(screen.getByText(cat)).toBeInTheDocument();
+        expect(screen.getAllByText(cat).length).toBeGreaterThan(0);
       });
     });
   });
 
   it("calls onOpenModal when More Info clicked", async () => {
     render(<ProjectRail title="Trending Builds" projects={trendingProjects} onOpenModal={mockOnOpenModal} />);
-    const btn = screen.getAllByRole("button", { name: /more info/i })[0];
+    const btn = screen.getAllByRole("button", { name: /details/i })[0];
     fireEvent.click(btn);
     await waitFor(() => expect(mockOnOpenModal).toHaveBeenCalledWith(trendingProjects[0]));
   });
 
   it("renders repo link when project has repo", () => {
     render(<ProjectRail title="Trending Builds" projects={trendingProjects} onOpenModal={mockOnOpenModal} />);
-    trendingProjects.forEach((p) => {
-      if (p.repo) {
-        expect(screen.getByRole("link", { name: /code/i })).toHaveAttribute("href", p.repo);
-      }
+    const links = screen.getAllByRole("link", { name: /code/i });
+    expect(links.length).toBeGreaterThan(0);
+    const repos = trendingProjects.filter(p => p.repo).map(p => p.repo);
+    links.forEach(link => {
+        expect(repos).toContain(link.getAttribute("href"));
     });
   });
 

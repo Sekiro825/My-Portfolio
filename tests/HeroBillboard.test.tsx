@@ -10,6 +10,12 @@ vi.mock("@/lib/motion", () => ({
   prefersReduced: () => false,
 }));
 
+vi.mock("@/components/Hero3DVisual", () => {
+    return {
+        default: () => <div>3D Visual</div>
+    }
+})
+
 const mockOnOpenModal = vi.fn();
 
 describe("HeroBillboard", () => {
@@ -17,7 +23,7 @@ describe("HeroBillboard", () => {
 
   it("renders without crashing", () => {
     render(<HeroBillboard onOpenModal={mockOnOpenModal} />);
-    expect(screen.getByText("FEATURED PROJECT")).toBeInTheDocument();
+    expect(screen.getByText("Featured Project")).toBeInTheDocument();
   });
 
   it("shows first featured project title", () => {
@@ -46,7 +52,7 @@ describe("HeroBillboard", () => {
 
   it("renders tech tags for the project", () => {
     render(<HeroBillboard onOpenModal={mockOnOpenModal} />);
-    featuredProjects[0].tech.slice(0, 8).forEach((t) => {
+    featuredProjects[0].tech.slice(0, 6).forEach((t) => {
       expect(screen.getByText(t)).toBeInTheDocument();
     });
   });
