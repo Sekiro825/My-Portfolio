@@ -16,9 +16,7 @@ function Avatar({ color }: { color: string }) {
   const rightArmRef = useRef<THREE.Mesh>(null!);
 
   // Load user photo for face texture
-  // Handle Next.js dynamic path resolution in dev vs prod
-  const isProd = process.env.NODE_ENV === "production";
-  const texturePath = isProd ? "/My-Portfolio/Saket_Pokale.png" : "/Saket_Pokale.png";
+  const texturePath = "/My-Portfolio/Saket_Pokale.png";
 
   const faceTexture = useLoader(THREE.TextureLoader, texturePath);
 
