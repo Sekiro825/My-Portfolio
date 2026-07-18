@@ -1,7 +1,9 @@
-﻿/** @type {import('next').NextConfig} */
+/** @type {import('next').NextConfig} */
 
 // GitHub Pages repo name - hardcoded to avoid BOM issues with package.json read
 const repo = "My-Portfolio";
+
+const isProd = process.env.NODE_ENV === "production";
 
 const nextConfig = {
   // Pure static export so we can ship to GitHub Pages.
@@ -11,8 +13,9 @@ const nextConfig = {
   images: { unoptimized: true },
 
   // GitHub Pages serves at /<repo>/ — make every asset path resolve correctly.
-  basePath: `/${repo}`,
-  assetPrefix: `/${repo}/`,
+  // Apply only in production to prevent 404s during local development
+  basePath: isProd ? `/${repo}` : "",
+  assetPrefix: isProd ? `/${repo}/` : "",
 
   // Emit a directive file so GitHub Pages SPA router works for in-page anchors
   // without 404 on refresh. (Our site is single page so this mostly affects

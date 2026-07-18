@@ -54,7 +54,7 @@ export default function Hero3DVisual({ emoji, accent }: { emoji: string; accent:
   if (!mounted) return null;
 
   return (
-    <div className="w-full h-full cursor-grab active:cursor-grabbing">
+    <div className="w-full h-full cursor-grab active:cursor-grabbing pointer-events-auto relative z-20">
       <Canvas camera={{ position: [0, 0, 5], fov: 45 }}>
         <ambientLight intensity={0.5} />
         <directionalLight position={[10, 10, 5]} intensity={1.5} />
