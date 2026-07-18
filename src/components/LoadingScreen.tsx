@@ -15,9 +15,9 @@ export default function LoadingScreen() {
   }, []);
 
   useEffect(() => {
-    if (sessionStorage.getItem("intro-seen")) { setShow(false); return; }
+    if (typeof sessionStorage !== "undefined" && sessionStorage.getItem("intro-seen")) { setShow(false); return; }
     if (reducedRef.current) {
-      sessionStorage.setItem("intro-seen", "true");
+      if (typeof sessionStorage !== "undefined") sessionStorage.setItem("intro-seen", "true");
       setTimeout(() => setShow(false), 400);
       return;
     }
@@ -27,7 +27,7 @@ export default function LoadingScreen() {
         return p + 1;
       });
     }, 25);
-    const dismiss = () => { if (promptReady) { sessionStorage.setItem("intro-seen", "true"); setDismissed(true); } };
+    const dismiss = () => { if (promptReady) { if (typeof sessionStorage !== "undefined") sessionStorage.setItem("intro-seen", "true"); setDismissed(true); } };
     const events = ["keydown", "click", "touchstart"] as const;
     events.forEach(e => window.addEventListener(e, dismiss));
     return () => { clearInterval(t); events.forEach(e => window.removeEventListener(e, dismiss)); };
@@ -88,7 +88,7 @@ export default function LoadingScreen() {
           transition={{ delay: 1 }}
           className="w-64 md:w-80 mt-12"
         >
-          <div className="h-1 bg-ink-700 rounded-full overflow-hidden">
+          <div className="h-1 bg-ink-700 rounded-full overflow-hidden" role="progressbar" aria-valuenow={progress} aria-valuemin={0} aria-valuemax={100}>
             <motion.div
               className="h-full bg-gradient-to-r from-accent-crimson to-accent-electric rounded-full shadow-[0_0_20px_var(--accent-crimson)]"
               animate={{ width: `${progress}%` }}

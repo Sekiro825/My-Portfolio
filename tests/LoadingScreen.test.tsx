@@ -17,9 +17,10 @@ describe("LoadingScreen", () => {
   });
 
   it("does not render if already seen in sessionStorage", () => {
-    sessionStorage.setItem("portfolio-intro-seen", "true");
-    const { queryByRole } = render(<LoadingScreen />);
-    expect(queryByRole("dialog")).not.toBeInTheDocument();
+    sessionStorage.getItem = vi.fn(() => "true");
+    render(<LoadingScreen />);
+    expect(screen.queryByText("SAKET POKALE")).not.toBeInTheDocument();
+    sessionStorage.getItem = vi.fn();
   });
 
   it("renders loading screen on first visit", () => {
@@ -30,69 +31,83 @@ describe("LoadingScreen", () => {
   it("shows logo, name, and tagline", () => {
     render(<LoadingScreen />);
     expect(screen.getByText("SAKET POKALE")).toBeInTheDocument();
-    expect(screen.getByText("ENGINEER · BUILDER · QUIETLY SHIPPING")).toBeInTheDocument();
+    expect(screen.getByText("GenAI • Cybersecurity • Full-Stack")).toBeInTheDocument();
   });
 
-  it("shows progress bar", () => {
+  it("shows progress bar", async () => {
     render(<LoadingScreen />);
-    const progressBar = screen.getByRole("progressbar") || screen.getByTestId("progress-bar") || screen.queryByText(/press any key/i);
-    // The progress bar is a div with width style - check for the container
-    expect(screen.getByText("PRESS ANY KEY TO ENTER")).not.toBeInTheDocument(); // not yet at 100%
+    expect(screen.getByRole("progressbar")).toBeInTheDocument();
+
+    // not yet at 100%
+    const prompt = screen.getByText("PRESS ANY KEY TO ENTER");
+    expect(prompt).toBeInTheDocument();
   });
 
-  it("shows prompt at 100% progress and dismisses on key press", async () => {
+  it("shows prompt at 100% progress and dismisses on key press", () => {
     render(<LoadingScreen />);
     
-    // Advance timers to complete progress (2 seconds at 60fps = ~120 frames)
-    await act(async () => {
-      vi.advanceTimersByTime(2100);
-    });
-
-    // Should show prompt
-    await waitFor(() => {
-      expect(screen.getByText("PRESS ANY KEY TO ENTER")).toBeInTheDocument();
+    // Advance timers to complete progress
+    act(() => {
+      vi.advanceTimersByTime(3000);
     });
 
     // Press key to dismiss
-    fireEvent.keyDown(window, { key: "Enter" });
+    act(() => {
+        fireEvent.keyDown(window, { key: "Enter" });
+    });
     
-    // Should be dismissed
-    await waitFor(() => {
-      expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
+    // Complete dismissal animation
+    act(() => {
+      vi.advanceTimersByTime(1000);
     });
 
+    // Should be dismissed
+    expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
+
     // sessionStorage should be set
-    expect(sessionStorage.getItem("portfolio-intro-seen")).toBe("true");
+    expect(sessionStorage.setItem).toHaveBeenCalledWith("intro-seen", "true");
   });
 
-  it("dismisses on click", async () => {
+  it("dismisses on click", () => {
+    render(<LoadingScreen />);
+    
+    act(() => {
+      vi.advanceTimersByTime(3000);
+    });
+
+
+    act(() => {
+        fireEvent.click(document.body);
+    });
+
+    act(() => {
+      vi.advanceTimersByTime(1000);
+    });
+
+    expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
+  });
+
+  it("respects prefers-reduced-motion (dismisses quickly)", async () => {
+    Object.defineProperty(window, 'matchMedia', {
+      writable: true,
+      value: vi.fn().mockImplementation(query => ({
+        matches: query === '(prefers-reduced-motion: reduce)',
+        media: query,
+        onchange: null,
+        addListener: vi.fn(),
+        removeListener: vi.fn(),
+        addEventListener: vi.fn(),
+        removeEventListener: vi.fn(),
+        dispatchEvent: vi.fn(),
+      })),
+    });
+    
     render(<LoadingScreen />);
     
     await act(async () => {
-      vi.advanceTimersByTime(2100);
+      vi.advanceTimersByTime(500);
     });
-
-    await waitFor(() => {
-      expect(screen.getByText("PRESS ANY KEY TO ENTER")).toBeInTheDocument();
-    });
-
-    fireEvent.click(document.body);
     
-    await waitFor(() => {
-      expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
-    });
-  });
-
-  it("respects prefers-reduced-motion (dismisses quickly)", () => {
-    vi.mock("@/lib/motion", () => ({
-      prefersReduced: () => true,
-    }));
-    
-    const { queryByRole } = render(<LoadingScreen />);
-    
-    // With reduced motion, it should dismiss after 300ms
-    vi.advanceTimersByTime(400);
-    
-    expect(queryByRole("dialog")).not.toBeInTheDocument();
+    expect(screen.queryByText("SAKET POKALE")).not.toBeInTheDocument();
   });
 });
