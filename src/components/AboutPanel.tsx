@@ -1,7 +1,7 @@
-﻿"use client";
+"use client";
 
 import { motion } from "framer-motion";
-import { Github, Linkedin, Mail, MapPin, Download, User } from "lucide-react";
+import { Github, Linkedin, Mail, MapPin, Download } from "lucide-react";
 import { portfolio } from "@data/portfolio";
 
 export default function AboutPanel() {
@@ -22,14 +22,24 @@ export default function AboutPanel() {
       <div className="max-w-5xl mx-auto mt-12">
         {/* Avatar + name + tagline */}
         <div className="flex flex-col md:flex-row items-center gap-8 mb-12">
-          {/* Placeholder avatar */}
+          {/* Saket Avatar Profile Image */}
           <motion.div
             initial={{ opacity: 0, scale: 0.8 }}
             whileInView={{ opacity: 1, scale: 1 }}
             viewport={{ once: true }}
-            className="w-32 h-32 md:w-40 md:h-40 rounded-full bg-ink-800 border-2 border-accent-crimson/30 flex items-center justify-center overflow-hidden flex-shrink-0 shadow-[0_0_40px_rgba(229,9,20,0.2)]"
+            className="relative w-32 h-32 md:w-40 md:h-40 rounded-full bg-ink-800 border-2 border-accent-crimson/50 flex items-center justify-center overflow-hidden flex-shrink-0 shadow-[0_0_45px_rgba(229,9,20,0.4)] group cursor-pointer"
           >
-            <User className="w-16 h-16 text-ink-500" />
+            <img
+              src={`${process.env.NEXT_PUBLIC_BASE_PATH || "/My-Portfolio"}/saket_avatar_stylized.png`}
+              alt="Saket Pokale Avatar"
+              className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+              onError={(e) => {
+                (e.target as HTMLElement).setAttribute("src", `${process.env.NEXT_PUBLIC_BASE_PATH || "/My-Portfolio"}/Saket_Pokale.png`);
+              }}
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-ink-900/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end justify-center pb-2">
+              <span className="text-[10px] uppercase font-mono tracking-widest text-white font-bold">Saket Pokale</span>
+            </div>
           </motion.div>
 
           <div className="text-center md:text-left">

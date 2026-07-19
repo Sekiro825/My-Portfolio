@@ -3,10 +3,9 @@
 import { Canvas, useFrame } from "@react-three/fiber";
 import { Float, Environment, ContactShadows } from "@react-three/drei";
 import { useRef, useState, useEffect } from "react";
-import * as THREE from "three";
 
 function Shape({ kind, color }: { kind: string; color: string }) {
-  const meshRef = useRef<THREE.Mesh>(null!);
+  const meshRef = useRef<any>(null!);
 
   useFrame((_state, delta) => {
     if (meshRef.current) {
