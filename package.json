@@ -13,8 +13,8 @@
     "test": "vitest run",
     "test:watch": "vitest",
     "serve:out": "npx --yes serve out",
-    "predeploy": "next build",
-    "deploy": "gh-pages -d out --message \"Deploy cinematic portfolio to GitHub Pages\""
+    "predeploy": "next build && node -e \"require('fs').writeFileSync('out/.nojekyll', '')\"",
+    "deploy": "gh-pages -d out -t --message \"Deploy cinematic portfolio to GitHub Pages\""
   },
   "dependencies": {
     "@react-three/drei": "^9.122.0",
