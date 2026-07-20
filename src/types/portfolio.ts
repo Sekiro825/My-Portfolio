@@ -22,6 +22,12 @@ export interface Project {
   externalUrl?: string; // live link if any
   featured?: boolean; // shows in hero rotation if true
   backdrop: BackdropSpec;
+  // Netflix-style metadata
+  matchScore?: number; // e.g. 99 (99% match)
+  rating?: string; // e.g. "TV-MA • AI/ML", "PG-13 • React"
+  duration?: string; // e.g. "1 Season", "Movie • Mobile App"
+  top10Rank?: number; // 1, 2, 3, 4, 5 for Top 10 rail
+  targetPersonas?: string[]; // ["employer", "explorer", "techlead", "critic"]
 }
 
 export type SkillCategory = "language" | "web" | "db" | "other";

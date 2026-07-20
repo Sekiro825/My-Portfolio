@@ -25,6 +25,12 @@ yarn-error.log*
 .env*
 !.env.example
 
+# secrets / api keys
+opencode.json
+.opencode/
+*.key
+*.secret
+
 # typescript
 *.tsbuildinfo
 next-env.d.ts
