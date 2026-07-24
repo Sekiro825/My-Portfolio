@@ -4,7 +4,6 @@ import { useState, useEffect, useMemo } from "react";
 import Navbar from "./Navbar";
 import HeroBillboard from "./HeroBillboard";
 import ProjectRail from "./ProjectRail";
-import ProfileSelector from "./ProfileSelector";
 import SearchModal from "./SearchModal";
 import StatsPanel from "./StatsPanel";
 import AchievementsGrid from "./AchievementsGrid";
@@ -16,23 +15,14 @@ import type { Project } from "@/types/portfolio";
 import { PROFILES, ProfileId } from "@/types/profile";
 
 export default function PageContent() {
-  const [activeProfile, setActiveProfile] = useState<ProfileId>("explorer");
-  const [isProfileSelectorOpen, setIsProfileSelectorOpen] = useState(false);
+  const [activeProfile] = useState<ProfileId>("explorer");
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [modalProject, setModalProject] = useState<Project | null>(null);
   const [myList, setMyList] = useState<string[]>(["enterprise-genai"]);
 
-  // Load saved profile or auto-prompt on first load
   useEffect(() => {
     if (typeof window !== "undefined") {
-      const saved = localStorage.getItem("netflix-profile") as ProfileId | null;
-      if (saved && PROFILES.some(p => p.id === saved)) {
-        setActiveProfile(saved);
-      } else {
-        setIsProfileSelectorOpen(true);
-      }
-
-      const savedList = localStorage.getItem("netflix-mylist");
+      const savedList = localStorage.getItem("anime-mydeck");
       if (savedList) {
         try {
           setMyList(JSON.parse(savedList));
@@ -43,18 +33,11 @@ export default function PageContent() {
     }
   }, []);
 
-  const handleSelectProfile = (id: ProfileId) => {
-    setActiveProfile(id);
-    if (typeof window !== "undefined") {
-      localStorage.setItem("netflix-profile", id);
-    }
-  };
-
   const handleToggleMyList = (id: string) => {
     setMyList(prev => {
       const next = prev.includes(id) ? prev.filter(x => x !== id) : [...prev, id];
       if (typeof window !== "undefined") {
-        localStorage.setItem("netflix-mylist", JSON.stringify(next));
+        localStorage.setItem("anime-mydeck", JSON.stringify(next));
       }
       return next;
     });
@@ -62,12 +45,12 @@ export default function PageContent() {
 
   const currentProfile = PROFILES.find(p => p.id === activeProfile) || PROFILES[0] || {
     id: "explorer",
-    name: "1st-Time Visitor",
+    name: "Coffee Explorer",
     subtitle: "",
-    avatarBg: "from-amber-500 to-red-600",
-    avatarIcon: "🍿",
-    accentColor: "#F5C542",
-    badge: "POPULAR FEATURED SHOWCASE",
+    avatarBg: "from-amber-500 to-amber-800",
+    avatarIcon: "☕",
+    accentColor: "#D98A5B",
+    badge: "S-RANK SHOWCASE",
     heroTagline: "",
     primaryCategory: "Trending Builds"
   };
@@ -96,10 +79,8 @@ export default function PageContent() {
 
   return (
     <>
-      {/* Netflix Header Navigation */}
+      {/* Header Navigation */}
       <Navbar
-        activeProfile={activeProfile}
-        onOpenProfileSelector={() => setIsProfileSelectorOpen(true)}
         onOpenSearch={() => setIsSearchOpen(true)}
         myListCount={myList.length}
         onOpenMyList={() => {
@@ -108,8 +89,8 @@ export default function PageContent() {
         }}
       />
 
-      <main className="min-h-screen bg-[#141414] text-white">
-        {/* Netflix Hero Billboard */}
+      <main className="min-h-screen bg-[#faf6f0] text-[#2c1a14]">
+        {/* Hero Billboard */}
         <HeroBillboard
           activeProfile={activeProfile}
           onOpenModal={setModalProject}
@@ -118,10 +99,10 @@ export default function PageContent() {
         />
 
         {/* Content Rails */}
-        <div className="px-4 md:px-12 lg:px-16 py-8 relative z-20 space-y-4">
+        <div id="projects" className="px-4 md:px-12 lg:px-16 py-8 relative z-20 space-y-8 bg-[#faf6f0]">
           {/* Top 10 Today Rail */}
           <ProjectRail
-            title="Top 10 Builds Today in India"
+            title="S-Rank Builds Matrix"
             projects={top10Projects}
             onOpenModal={setModalProject}
             isTop10={true}
@@ -132,7 +113,7 @@ export default function PageContent() {
           {/* Persona Recommended Rail */}
           {recommendedProjects.length > 0 && (
             <ProjectRail
-              title={`Top Recommendations for ${currentProfile.name.split(" ")[0]}`}
+              title={`Tactical Recommendations for ${currentProfile.name.split(" ")[0]}`}
               projects={recommendedProjects}
               onOpenModal={setModalProject}
               myList={myList}
@@ -144,7 +125,7 @@ export default function PageContent() {
           {myListProjects.length > 0 && (
             <div id="my-list-rail">
               <ProjectRail
-                title="My List"
+                title="Bookmarked Deck"
                 projects={myListProjects}
                 onOpenModal={setModalProject}
                 myList={myList}
@@ -160,7 +141,7 @@ export default function PageContent() {
             return (
               <ProjectRail
                 key={cat}
-                title={`${cat} Originals`}
+                title={`${cat} Chronicles`}
                 projects={projects}
                 onOpenModal={setModalProject}
                 myList={myList}
@@ -170,15 +151,15 @@ export default function PageContent() {
           })}
 
           {/* Stats & Experience */}
-          <div id="skills" className="pt-12">
+          <div className="pt-8">
             <StatsPanel />
           </div>
 
-          <div className="pt-12">
+          <div className="pt-8">
             <AchievementsGrid />
           </div>
 
-          <div id="about" className="pt-12">
+          <div className="pt-8">
             <AboutPanel />
           </div>
         </div>
@@ -186,22 +167,14 @@ export default function PageContent() {
         <Footer />
       </main>
 
-      {/* Netflix Profile Selector Modal */}
-      <ProfileSelector
-        activeProfile={activeProfile}
-        onSelectProfile={handleSelectProfile}
-        isOpen={isProfileSelectorOpen}
-        onClose={() => setIsProfileSelectorOpen(false)}
-      />
-
-      {/* Netflix Live Search Modal */}
+      {/* Search Modal */}
       <SearchModal
         isOpen={isSearchOpen}
         onClose={() => setIsSearchOpen(false)}
         onSelectProject={setModalProject}
       />
 
-      {/* Netflix Project Detail Preview Modal */}
+      {/* Project Detail Preview Modal */}
       <ProjectModal
         project={modalProject}
         onClose={() => setModalProject(null)}

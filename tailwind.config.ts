@@ -31,6 +31,18 @@ const config: Config = {
       boxShadow: {
         glow: "0 0 40px -10px var(--accent-crimson), 0 0 80px -30px var(--accent-electric)",
         card: "0 18px 50px -20px rgba(0,0,0,0.9)",
+        "glow-crimson": "0 0 30px -6px var(--accent-crimson), 0 0 60px -20px rgba(229,9,20,0.4)",
+        "glow-electric": "0 0 30px -6px var(--accent-electric), 0 0 60px -20px rgba(0,179,255,0.4)",
+        "glow-gold": "0 0 30px -6px var(--accent-gold), 0 0 60px -20px rgba(245,197,66,0.4)",
+        "ring-crimson": "0 0 0 3px var(--accent-crimson), 0 0 20px rgba(229,9,20,0.5)",
+        "ring-electric": "0 0 0 2px var(--accent-electric), 0 0 16px rgba(0,179,255,0.4)",
+        "ring-gold": "0 0 0 2px var(--accent-gold), 0 0 16px rgba(245,197,66,0.4)",
+        "inset-glass": "inset 0 1px 0 rgba(255,255,255,0.06)",
+      },
+      backgroundImage: {
+        glass: "linear-gradient(135deg, rgba(255,255,255,0.04), rgba(255,255,255,0.01))",
+        "crimson-rim": "linear-gradient(135deg, var(--accent-crimson), rgba(229,9,20,0.4))",
+        "tech-grid": "linear-gradient(rgba(255,255,255,0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.04) 1px, transparent 1px)",
       },
       keyframes: {
         scan: {

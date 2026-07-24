@@ -28,6 +28,7 @@ export interface Project {
   duration?: string; // e.g. "1 Season", "Movie • Mobile App"
   top10Rank?: number; // 1, 2, 3, 4, 5 for Top 10 rail
   targetPersonas?: string[]; // ["employer", "explorer", "techlead", "critic"]
+  highlights?: string[];
 }
 
 export type SkillCategory = "language" | "web" | "db" | "other";
@@ -50,6 +51,7 @@ export interface Education {
   startYear: number;
   endYear: number;
   score: string; // e.g. "CGPA 6.785"
+  cgpa?: string;
 }
 
 export interface Bio {
@@ -63,6 +65,8 @@ export interface Bio {
   email: string;
   institutionEmail: string;
   resumePath: string; // "/My-Portfolio/resume.pdf" (with basePath)
+  summary?: string;
+  extendedSummary?: string;
 }
 
 export interface Portfolio {

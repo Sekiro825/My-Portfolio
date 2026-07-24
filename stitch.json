@@ -1,0 +1,9 @@
+{
+  "projectId": "projects/4588074538911158975",
+  "projectTitle": "Saket Portfolio Redesign",
+  "mcp": {
+    "server": "StitchMCP",
+    "url": "https://stitch.googleapis.com/mcp",
+    "enabled": true
+  }
+}

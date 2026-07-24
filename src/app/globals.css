@@ -3,17 +3,22 @@
 @tailwind utilities;
 
 :root {
-  --ink-900: #08090d;
-  --ink-800: #0c0e14;
-  --ink-700: #11131c;
-  --ink-600: #1b1f2c;
-  --ink-500: #2a2f3e;
-  --ink-400: #4a5168;
-  --ink-300: #9aa3b8;
-  --accent-crimson: #e50914;
-  --accent-electric: #00b3ff;
-  --accent-gold: #f5c542;
-  --accent-cyan: #00ffd1;
+  --coffee-bg: #faf6f0;
+  --coffee-card: #ffffff;
+  --coffee-espresso: #2c1a14;
+  --coffee-[#2C1A14]: #3d261d;
+  --coffee-mocha: #6e584e;
+  --coffee-caramel: #d98a5b;
+  --coffee-cinnamon: #a66e4e;
+  --coffee-cream: #f4ebe1;
+  --coffee-honey: #e6a756;
+  --coffee-border: #e8dfd5;
+
+  --cyber-cyan: #d98a5b;
+  --neon-pink: #a66e4e;
+  --electric-purple: #8c5a3c;
+  --gold-aura: #e6a756;
+  --void-bg: #faf6f0;
 }
 
 * {
@@ -22,52 +27,64 @@
 
 html,
 body {
-  background: #141414;
-  color: #e6e8ee;
-  font-family: var(--font-body), -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  background: var(--coffee-bg);
+  color: var(--coffee-espresso);
+  font-family: var(--font-body), -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   scroll-behavior: smooth;
   margin: 0;
   padding: 0;
+  overflow-x: hidden;
 }
 
-.text-drop-shadow {
-  text-shadow: 0 4px 20px rgba(0, 0, 0, 0.9);
-}
-
-.text-glow-red {
-  text-shadow: 0 0 20px rgba(229, 9, 20, 0.7);
-}
-
+/* Selection */
 ::selection {
-  background: var(--accent-crimson);
-  color: #fff;
+  background: var(--coffee-caramel);
+  color: #ffffff;
 }
 
-/* Cinematic overlays - BELOW content (negative z, but using pointer-events: none will keep them passable) */
-.grain {
-  position: fixed;
-  inset: 0;
-  z-index: 0;
-  pointer-events: none;
-  opacity: 0.06;
-  mix-blend-mode: overlay;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+/* Soft Coffee Grid & Grain Patterns */
+.manga-dots {
+  background-image: radial-gradient(rgba(217, 138, 91, 0.15) 1.5px, transparent 1.5px);
+  background-size: 18px 18px;
 }
 
+.manga-dots-pink {
+  background-image: radial-gradient(rgba(166, 110, 78, 0.15) 1.5px, transparent 1.5px);
+  background-size: 18px 18px;
+}
+
+.cyber-grid {
+  background-size: 40px 40px;
+  background-image:
+    linear-gradient(to right, rgba(217, 138, 91, 0.08) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(217, 138, 91, 0.08) 1px, transparent 1px);
+}
+
+.cyber-speedlines {
+  background: repeating-linear-gradient(
+    90deg,
+    transparent,
+    transparent 10px,
+    rgba(217, 138, 91, 0.04) 11px,
+    rgba(217, 138, 91, 0.04) 12px
+  );
+}
+
+/* Scanlines replaced with soft warm vignette */
 .scanlines {
   position: fixed;
   inset: 0;
   z-index: 1;
   pointer-events: none;
-  opacity: 0.25;
+  opacity: 0.03;
   background-image: repeating-linear-gradient(
     0deg,
-    rgba(0,0,0,0.4) 0px,
-    rgba(0,0,0,0.4) 1px,
+    rgba(44, 26, 20, 0.4) 0px,
+    rgba(44, 26, 20, 0.4) 1px,
     transparent 1px,
-    transparent 3px
+    transparent 4px
   );
 }
 
@@ -76,45 +93,66 @@ body {
   inset: 0;
   z-index: 2;
   pointer-events: none;
-  background: radial-gradient(ellipse at center, transparent 40%, rgba(0,0,0,0.85) 110%);
+  background: radial-gradient(ellipse at center, transparent 60%, rgba(244, 235, 225, 0.4) 100%);
 }
 
-/* Text glow for hero titles */
-.text-glow {
-  text-shadow: 0 0 30px rgba(229, 9, 20, 0.6), 0 0 60px rgba(229, 9, 20, 0.3);
+/* Polygon Cuts for HUD look in Coffee Aesthetic */
+.clip-cyber-corner {
+  clip-path: polygon(0 0, calc(100% - 16px) 0, 100% 16px, 100% 100%, 16px 100%, 0 calc(100% - 16px));
 }
 
-.text-glow-electric {
-  text-shadow: 0 0 20px rgba(0, 179, 255, 0.5), 0 0 40px rgba(0, 179, 255, 0.3);
+.clip-cyber-card {
+  clip-path: polygon(0 0, calc(100% - 20px) 0, 100% 20px, 100% 100%, 0 100%);
+}
+
+/* Warm Coffee Glow Effects */
+.text-glow-cyan {
+  text-shadow: 0 2px 10px rgba(217, 138, 91, 0.3);
+}
+
+.text-glow-pink {
+  text-shadow: 0 2px 10px rgba(166, 110, 78, 0.3);
 }
 
 .text-glow-gold {
-  text-shadow: 0 0 20px rgba(245, 197, 66, 0.5);
+  text-shadow: 0 2px 10px rgba(230, 167, 86, 0.35);
 }
 
-/* Custom scrollbar */
+.glow-cyan-box {
+  box-shadow: 0 10px 30px rgba(217, 138, 91, 0.2);
+}
+
+/* Coffee Glass Panels */
+.cyber-panel {
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid #e8dfd5;
+}
+
+.cyber-panel-pink {
+  background: rgba(248, 243, 237, 0.95);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid #dfd0c0;
+}
+
+/* Custom Scrollbar */
 ::-webkit-scrollbar {
-  width: 10px;
-  height: 10px;
+  width: 8px;
+  height: 8px;
 }
 ::-webkit-scrollbar-track {
-  background: var(--ink-900);
+  background: #faf6f0;
 }
 ::-webkit-scrollbar-thumb {
-  background: var(--ink-600);
+  background: linear-gradient(180deg, #d98a5b, #a66e4e);
+  border-radius: 4px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: var(--accent-crimson);
+  background: #2c1a14;
 }
 
-/* Focus visible for accessibility */
-:focus-visible {
-  outline: 2px solid var(--accent-electric);
-  outline-offset: 2px;
-  border-radius: 3px;
-}
-
-/* Hide scrollbar utility */
 .hide-scrollbar {
   scrollbar-width: none;
   -ms-overflow-style: none;
@@ -123,94 +161,8 @@ body {
   display: none;
 }
 
-/* Reduced motion */
-@media (prefers-reduced-motion: reduce) {
-  *,
-  *::before,
-  *::after {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
-    scroll-behavior: auto !important;
-  }
-}
-
-/* Cinematic gradient utility */
-.cinematic-gradient {
-  background:
-    radial-gradient(ellipse 80% 50% at 50% -10%, rgba(229, 9, 20, 0.2), transparent 60%),
-    linear-gradient(to bottom, var(--ink-900), var(--ink-800));
-}
-
-/* Section wrapper */
-.section-pad {
-  padding: 6rem 0;
-}
-
-@media (max-width: 768px) {
-  .section-pad {
-    padding: 4rem 0;
-  }
-}
-
-/* Film grain on hover */
-.card-shine {
-  position: relative;
-  overflow: hidden;
-}
-.card-shine::before {
-  content: "";
-  position: absolute;
-  top: -50%;
-  left: -50%;
-  width: 200%;
-  height: 200%;
-  background: linear-gradient(
-    45deg,
-    transparent 30%,
-    rgba(255, 255, 255, 0.05) 50%,
-    transparent 70%
-  );
-  transform: translateX(-100%);
-  transition: transform 0.7s;
-  pointer-events: none;
-}
-.card-shine:hover::before {
-  transform: translateX(100%);
-}
-
-/* Pulsing dot */
-@keyframes pulse-dot {
-  0%, 100% {
-    opacity: 1;
-    transform: scale(1);
-  }
-  50% {
-    opacity: 0.6;
-    transform: scale(1.2);
-  }
-}
-
-.pulse-dot {
-  animation: pulse-dot 2s ease-in-out infinite;
-}
-
-/* Floating animation */
-@keyframes float {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-6px); }
-}
-
-.float {
-  animation: float 4s ease-in-out infinite;
-}
-
-/* Marquee for rails */
-@keyframes marquee-pulse {
-  0%, 100% { opacity: 0.4; transform: scaleX(1); }
-  50% { opacity: 1; transform: scaleX(1.1); }
-}
-
-.marquee-pulse {
-  animation: marquee-pulse 2s ease-in-out infinite;
+/* Accessibility */
+:focus-visible {
+  outline: 2px solid var(--coffee-caramel);
+  outline-offset: 2px;
 }
