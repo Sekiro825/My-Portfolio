@@ -1,7 +1,8 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Mail, MapPin, Download, Volume2, Shield, Cpu, Terminal, Github, Linkedin } from "lucide-react";
+import { Mail, MapPin, Download, Volume2, Shield, Cpu, Github, Linkedin } from "lucide-react";
+
 import { portfolio } from "@data/portfolio";
 import { useState, useEffect, useRef } from "react";
 import { sound } from "@/lib/sound";
@@ -10,15 +11,14 @@ export default function AboutPanel() {
   const { bio, education } = portfolio;
   const edu = education[0];
 
-  // Coffee Waveform state
   const [isPlaying, setIsPlaying] = useState(false);
-  const [waveformBars, setWaveformBars] = useState(() => Array.from({ length: 32 }, () => Math.random() * 0.3 + 0.1));
+  const [waveformBars, setWaveformBars] = useState(() => Array.from({ length: 32 }, () => Math.random() * 0.4 + 0.1));
   const animationRef = useRef<number | null>(null);
 
   useEffect(() => {
     if (!isPlaying) return;
     const animate = () => {
-      setWaveformBars(prev => prev.map(() => Math.random() * 0.7 + 0.15));
+      setWaveformBars(prev => prev.map(() => Math.random() * 0.8 + 0.15));
       animationRef.current = requestAnimationFrame(animate);
     };
     animationRef.current = requestAnimationFrame(animate);
@@ -28,7 +28,7 @@ export default function AboutPanel() {
   }, [isPlaying]);
 
   const togglePlay = () => {
-    sound.playClick();
+    sound.playWhoosh();
     setIsPlaying(!isPlaying);
   };
 
@@ -37,71 +37,61 @@ export default function AboutPanel() {
   const cgpaValue = edu?.cgpa || edu?.score || "N/A";
 
   return (
-    <section id="about" className="section-pad relative overflow-hidden py-16">
-      {/* Background Dots */}
-      <div className="absolute inset-0 pointer-events-none opacity-10 manga-dots" />
-
-      <div className="max-w-6xl mx-auto px-4 relative z-10">
+    <section id="about" className="relative overflow-hidden py-24 bg-bg">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 relative z-10">
+        
         {/* Header Title */}
-        <div className="text-center mb-12">
+        <div className="text-center mb-16">
           <motion.div
             initial={{ opacity: 0, y: -10 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="inline-flex items-center gap-2 px-3 py-1 rounded-lg bg-[#d98a5b]/15 border border-[#d98a5b]/40 text-[#2c1a14] font-mono text-xs font-bold uppercase tracking-widest mb-3 shadow-sm"
+            className="inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full bg-accent-blue/10 text-accent-blue font-mono text-xs font-semibold uppercase tracking-widest mb-4"
           >
-            <Terminal className="w-3.5 h-3.5 text-[#d98a5b]" /> DOSSIER FILE #825
+            <Cpu className="w-4 h-4" /> About The Architect
           </motion.div>
           <motion.h2
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
             viewport={{ once: true }}
-            className="font-display text-3xl sm:text-4xl md:text-5xl font-black tracking-tight text-[#2c1a14]"
+            className="font-display text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight text-text"
           >
-            {"CHARACTER DOSSIER // SAKET POKALE"}
+            Engineering Intelligence
           </motion.h2>
         </div>
 
-        {/* Profile Card Header */}
-        <div className="cyber-panel p-8 md:p-12 rounded-3xl border border-[#e8dfd5] shadow-[0_10px_35px_rgba(74,48,34,0.06)] mb-12 relative bg-white">
+        {/* Profile Card */}
+        <div className="glass-panel p-8 md:p-12 rounded-3xl mb-12 relative overflow-hidden transition-all duration-300">
           <div className="flex flex-col md:flex-row items-center gap-10">
-            {/* Avatar Frame */}
+            
             <motion.div
-              initial={{ opacity: 0, scale: 0.8 }}
+              initial={{ opacity: 0, scale: 0.9 }}
               whileInView={{ opacity: 1, scale: 1 }}
               viewport={{ once: true }}
               onMouseEnter={() => sound.playHover()}
-              className="relative w-40 h-40 md:w-48 md:h-48 rounded-2xl bg-[#f4ebe1] border-2 border-[#d98a5b] p-1 flex items-center justify-center overflow-hidden flex-shrink-0 shadow-md group cursor-pointer"
+              className="relative w-44 h-44 md:w-52 md:h-52 rounded-full p-1 flex items-center justify-center flex-shrink-0 group cursor-pointer bg-gradient-to-tr from-accent-blue to-accent-cyan shadow-xl"
             >
               <img
-                src={`${process.env.NEXT_PUBLIC_BASE_PATH || "/My-Portfolio"}/saket_avatar_stylized.png`}
-                alt="Saket Pokale Avatar"
-                className="w-full h-full object-cover rounded-xl group-hover:scale-110 transition-transform duration-500"
+                src="/My-Portfolio/Saket_Pokale.png"
+                alt="Saket Pokale"
+                className="w-full h-full object-cover object-top rounded-full border-4 border-white group-hover:scale-[1.02] transition-transform duration-500"
                 onError={(e) => {
-                  (e.target as HTMLElement).setAttribute("src", `${process.env.NEXT_PUBLIC_BASE_PATH || "/My-Portfolio"}/Saket_Pokale.png`);
+                  const target = e.currentTarget;
+                  if (target.src.includes("saket_avatar_stylized.png")) {
+                    target.onerror = null;
+                  } else {
+                    target.src = "/My-Portfolio/saket_avatar_stylized.png";
+                  }
                 }}
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-[#2c1a14]/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end justify-center pb-3">
-                <span className="text-[10px] font-mono tracking-widest text-[#faf6f0] font-bold">LVL 99 ARCHITECT</span>
-              </div>
             </motion.div>
 
-            {/* Profile Info */}
             <div className="text-center md:text-left flex-1">
-              <div className="flex flex-wrap items-center justify-center md:justify-start gap-2 mb-2">
-                <span className="px-2.5 py-0.5 rounded-lg bg-[#d98a5b]/15 border border-[#d98a5b]/40 text-[#2c1a14] font-mono font-bold text-xs">
-                  CLASS: FULL-STACK ALCHEMIST
-                </span>
-                <span className="px-2.5 py-0.5 rounded-lg bg-[#e6a756]/20 border border-[#e6a756]/40 text-[#2c1a14] font-mono font-bold text-xs">
-                  RANK: S-CLASS
-                </span>
-              </div>
-
               <motion.h1
                 initial={{ opacity: 0, y: 10 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                className="font-display text-4xl md:text-5xl font-black text-[#2c1a14] mb-2"
+                className="font-display text-4xl md:text-5xl font-bold text-text mb-2"
               >
                 {bio.name}
               </motion.h1>
@@ -110,7 +100,7 @@ export default function AboutPanel() {
                 initial={{ opacity: 0 }}
                 whileInView={{ opacity: 1 }}
                 viewport={{ once: true }}
-                className="text-[#d98a5b] text-lg font-mono font-medium mb-3"
+                className="text-accent-blue text-lg font-mono font-medium mb-3"
               >
                 {bio.tagline}
               </motion.p>
@@ -119,12 +109,11 @@ export default function AboutPanel() {
                 initial={{ opacity: 0 }}
                 whileInView={{ opacity: 1 }}
                 viewport={{ once: true }}
-                className="flex items-center justify-center md:justify-start gap-2 text-[#6e584e] font-mono text-sm mb-6"
+                className="flex items-center justify-center md:justify-start gap-2 text-muted font-body text-sm mb-8"
               >
-                <MapPin className="w-4 h-4 text-[#a66e4e]" /> {bio.location}
+                <MapPin className="w-4 h-4" /> {bio.location}
               </motion.p>
 
-              {/* Action Buttons */}
               <div className="flex flex-wrap gap-4 justify-center md:justify-start">
                 <a
                   href={bio.resumePath}
@@ -132,68 +121,65 @@ export default function AboutPanel() {
                   rel="noopener noreferrer"
                   onClick={() => sound.playClick()}
                   onMouseEnter={() => sound.playHover()}
-                  className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-[#2c1a14] hover:bg-[#3d261d] text-[#faf6f0] font-mono font-bold text-xs transition-all duration-300 shadow-md"
+                  className="flex items-center gap-2 px-6 py-3 rounded-full bg-text text-white font-body font-medium text-sm transition-all duration-300 shadow-md hover:shadow-xl hover:-translate-y-1"
                 >
-                  <Download className="w-4 h-4" /> RESUME DECK [PDF]
+                  <Download className="w-4 h-4" /> Download Resume
                 </a>
                 <a
                   href={`mailto:${bio.email}`}
                   onClick={() => sound.playClick()}
                   onMouseEnter={() => sound.playHover()}
-                  className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-white border border-[#e8dfd5] text-[#2c1a14] hover:bg-[#f4ebe1] font-mono font-bold text-xs transition-all shadow-sm"
+                  className="flex items-center gap-2 px-6 py-3 rounded-full bg-surface border border-black/5 text-text hover:border-black/10 font-body font-medium text-sm transition-all shadow-sm hover:shadow-md hover:-translate-y-1"
                 >
-                  <Mail className="w-4 h-4 text-[#d98a5b]" /> TRANSMIT SIGNAL
+                  <Mail className="w-4 h-4" /> Contact Me
                 </a>
               </div>
             </div>
           </div>
         </div>
 
-        {/* Bio Narrative & Audio Synthesizer Widget */}
+        {/* Info Grid */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          {/* Bio Text */}
-          <div className="lg:col-span-2 space-y-6 text-[#6e584e] text-base leading-relaxed font-sans">
-            <div className="cyber-panel p-6 rounded-2xl border border-[#e8dfd5] bg-white">
-              <h3 className="font-mono text-sm font-bold text-[#2c1a14] tracking-widest uppercase mb-3 flex items-center gap-2">
-                <Cpu className="w-4 h-4 text-[#d98a5b]" /> BACKGROUND NARRATIVE
+          
+          <div className="lg:col-span-2 space-y-8 text-muted text-base leading-relaxed font-body">
+            <div className="glass-panel p-8 rounded-3xl">
+              <h3 className="font-mono text-sm font-semibold text-accent-blue uppercase mb-4 flex items-center gap-2">
+                <Cpu className="w-4 h-4" /> Background
               </h3>
               <p className="mb-4">{bioSummary}</p>
               {bioExtended && <p>{bioExtended}</p>}
             </div>
 
-            {/* Education Record */}
             {edu && (
-              <div className="cyber-panel p-6 rounded-2xl border border-[#e8dfd5] bg-white">
-                <h3 className="font-mono text-sm font-bold text-[#a66e4e] tracking-widest uppercase mb-3 flex items-center gap-2">
-                  <Shield className="w-4 h-4 text-[#a66e4e]" /> ACADEMIC MASTERY RECORD
+              <div className="glass-panel p-8 rounded-3xl">
+                <h3 className="font-mono text-sm font-semibold text-accent-blue uppercase mb-4 flex items-center gap-2">
+                  <Shield className="w-4 h-4" /> Education
                 </h3>
                 <div className="flex justify-between items-start">
                   <div>
-                    <h4 className="font-bold text-[#2c1a14] text-lg">{edu.degree}</h4>
-                    <p className="text-[#d98a5b] font-mono text-sm">{edu.institution}</p>
+                    <h4 className="font-semibold text-text text-lg">{edu.degree}</h4>
+                    <p className="text-muted font-mono text-sm">{edu.institution}</p>
                   </div>
-                  <span className="px-2.5 py-1 rounded-lg bg-[#e6a756]/20 text-[#2c1a14] font-mono font-bold text-xs border border-[#e6a756]/40">
-                    SCORE: {cgpaValue}
+                  <span className="px-3 py-1 rounded-full bg-accent-blue/10 text-accent-blue font-mono font-medium text-xs">
+                    Score: {cgpaValue}
                   </span>
                 </div>
               </div>
             )}
           </div>
 
-          {/* Audio Waveform Widget */}
-          <div className="space-y-6">
-            <div className="cyber-panel p-6 rounded-2xl border border-[#e8dfd5] text-center bg-white">
-              <h3 className="font-mono text-xs font-bold text-[#2c1a14] tracking-widest uppercase mb-4 flex items-center justify-center gap-2">
-                <Volume2 className="w-4 h-4 text-[#d98a5b]" /> AMBIENT AUDIO SYNTHESIZER
+          <div className="space-y-8">
+            <div className="glass-panel p-8 rounded-3xl text-center">
+              <h3 className="font-mono text-xs font-semibold text-accent-blue uppercase mb-6 flex items-center justify-center gap-2">
+                <Volume2 className="w-4 h-4" /> Ambient Sound
               </h3>
               
-              {/* Waveform Bar Graphic */}
-              <div className="h-16 flex items-end justify-center gap-1 my-4 px-4 bg-[#faf6f0] rounded-xl p-2 border border-[#e8dfd5]">
+              <div className="h-16 flex items-end justify-center gap-1 my-6 px-4">
                 {waveformBars.map((h, idx) => (
                   <div
                     key={idx}
-                    className="w-1.5 rounded-full bg-gradient-to-t from-[#d98a5b] to-[#a66e4e] transition-all duration-150"
-                    style={{ height: `${h * 100}%` }}
+                    className="w-1.5 rounded-full bg-accent-blue transition-all duration-150"
+                    style={{ height: `${h * 100}%`, opacity: isPlaying ? 1 : 0.2 }}
                   />
                 ))}
               </div>
@@ -201,20 +187,19 @@ export default function AboutPanel() {
               <button
                 onClick={togglePlay}
                 onMouseEnter={() => sound.playHover()}
-                className={`w-full py-2.5 rounded-xl font-mono font-bold text-xs transition-all ${
+                className={`w-full py-3 rounded-full font-body font-medium text-sm transition-all shadow-sm ${
                   isPlaying
-                    ? "bg-[#2c1a14] text-white shadow-md"
-                    : "bg-[#d98a5b]/15 text-[#2c1a14] border border-[#d98a5b]/40 hover:bg-[#d98a5b]/25"
+                    ? "bg-accent-blue text-white"
+                    : "bg-surface text-text border border-black/5 hover:border-black/10"
                 }`}
               >
-                {isPlaying ? "HALT AUDIO WAVEFORM" : "INITIALIZE AUDIO WAVEFORM"}
+                {isPlaying ? "Pause Ambient" : "Play Ambient"}
               </button>
             </div>
 
-            {/* Direct Channels */}
-            <div className="cyber-panel p-6 rounded-2xl border border-[#e8dfd5] space-y-3 bg-white">
-              <h3 className="font-mono text-xs font-bold text-[#2c1a14] tracking-widest uppercase mb-2">
-                DIRECT COMM CHANNELS
+            <div className="glass-panel p-6 rounded-3xl space-y-3">
+              <h3 className="font-mono text-xs font-semibold text-accent-blue uppercase mb-4 pl-2">
+                Connect
               </h3>
               <a
                 href={bio.github}
@@ -222,10 +207,10 @@ export default function AboutPanel() {
                 rel="noopener noreferrer"
                 onClick={() => sound.playClick()}
                 onMouseEnter={() => sound.playHover()}
-                className="flex items-center justify-between p-3 rounded-xl bg-[#faf6f0] hover:bg-[#f4ebe1] border border-[#e8dfd5] text-[#2c1a14] text-xs font-mono transition-all"
+                className="flex items-center justify-between p-4 rounded-2xl bg-surface hover:bg-black/5 border border-transparent text-text text-sm font-body transition-all"
               >
-                <span className="flex items-center gap-2"><Github className="w-4 h-4 text-[#d98a5b]" /> GITHUB MATRIX</span>
-                <span className="text-[#d98a5b]">→</span>
+                <span className="flex items-center gap-3"><Github className="w-5 h-5 text-accent-blue" /> GitHub</span>
+                <span className="text-accent-blue">→</span>
               </a>
               <a
                 href={bio.linkedin}
@@ -233,10 +218,10 @@ export default function AboutPanel() {
                 rel="noopener noreferrer"
                 onClick={() => sound.playClick()}
                 onMouseEnter={() => sound.playHover()}
-                className="flex items-center justify-between p-3 rounded-xl bg-[#faf6f0] hover:bg-[#f4ebe1] border border-[#e8dfd5] text-[#2c1a14] text-xs font-mono transition-all"
+                className="flex items-center justify-between p-4 rounded-2xl bg-surface hover:bg-black/5 border border-transparent text-text text-sm font-body transition-all"
               >
-                <span className="flex items-center gap-2"><Linkedin className="w-4 h-4 text-[#a66e4e]" /> LINKEDIN NETWORK</span>
-                <span className="text-[#a66e4e]">→</span>
+                <span className="flex items-center gap-3"><Linkedin className="w-5 h-5 text-accent-blue" /> LinkedIn</span>
+                <span className="text-accent-blue">→</span>
               </a>
             </div>
           </div>

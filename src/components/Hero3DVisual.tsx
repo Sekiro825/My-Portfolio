@@ -1,113 +1,169 @@
 "use client";
 
 import { Canvas, useFrame } from "@react-three/fiber";
-import { Float, Environment, ContactShadows, Points, PointMaterial } from "@react-three/drei";
+import { Float, Environment, ContactShadows } from "@react-three/drei";
 import { useRef, useState, useEffect, useMemo } from "react";
+import * as THREE from "three";
+import { sound } from "@/lib/sound";
 
-// Warm Floating Gold / Coffee Dust Particles
-function CoffeeParticles({ count = 280, color = "#d98a5b" }) {
+// Minimalist, high-end Neural Brain Point-Cloud
+function NeuralBrainMesh({ color = "#2979FF" }: { color?: string }) {
   const pointsRef = useRef<any>(null!);
+  const linesRef = useRef<any>(null!);
+  const groupRef = useRef<any>(null!);
 
-  const positions = useMemo(() => {
-    const pos = new Float32Array(count * 3);
-    for (let i = 0; i < count; i++) {
-      pos[i * 3] = (Math.random() - 0.5) * 12;
-      pos[i * 3 + 1] = (Math.random() - 0.5) * 12;
-      pos[i * 3 + 2] = (Math.random() - 0.5) * 12;
+  const { positions, linePositions } = useMemo(() => {
+    const nodeCount = 800; // slightly less for cleaner look
+    const pos = new Float32Array(nodeCount * 3);
+    const rawNodes: THREE.Vector3[] = [];
+
+    let pIdx = 0;
+    for (let i = 0; i < nodeCount; i++) {
+      const phi = Math.acos(-1 + (2 * i) / nodeCount);
+      const theta = Math.sqrt(nodeCount * Math.PI) * phi;
+
+      const isRightHemisphere = i % 2 === 0;
+      const xSide = isRightHemisphere ? 0.35 : -0.35;
+
+      const baseR = 1.3 + Math.sin(phi * 4) * 0.1 + Math.cos(theta * 4) * 0.1;
+      const x = baseR * Math.sin(phi) * Math.cos(theta) * 0.8 + xSide;
+      const y = baseR * Math.sin(phi) * Math.sin(theta) * 1.1;
+      const z = baseR * Math.cos(phi) * 0.95;
+
+      pos[pIdx++] = x;
+      pos[pIdx++] = y;
+      pos[pIdx++] = z;
+      rawNodes.push(new THREE.Vector3(x, y, z));
     }
-    return pos;
-  }, [count]);
 
-  useFrame((_state, delta) => {
-    if (pointsRef.current) {
-      pointsRef.current.rotation.y += delta * 0.06;
-      pointsRef.current.rotation.x += delta * 0.03;
+    const lineIndices: number[] = [];
+    const maxDistSq = 0.45 * 0.45;
+    for (let i = 0; i < rawNodes.length; i++) {
+      const nodeA = rawNodes[i];
+      if (!nodeA) continue;
+      for (let j = i + 1; j < rawNodes.length; j++) {
+        const nodeB = rawNodes[j];
+        if (nodeB && nodeA.distanceToSquared(nodeB) < maxDistSq) {
+          lineIndices.push(i, j);
+        }
+      }
+    }
+
+    const linePos = new Float32Array(lineIndices.length * 3);
+    let lIdx = 0;
+    for (let i = 0; i < lineIndices.length; i++) {
+      const idx = lineIndices[i];
+      if (typeof idx === "number" && rawNodes[idx]) {
+        const v = rawNodes[idx];
+        linePos[lIdx++] = v.x;
+        linePos[lIdx++] = v.y;
+        linePos[lIdx++] = v.z;
+      }
+    }
+
+    return { positions: pos, linePositions: linePos };
+  }, []);
+
+  useFrame((state, delta) => {
+    if (groupRef.current) {
+      groupRef.current.rotation.y += delta * 0.15;
+      groupRef.current.rotation.x = Math.sin(state.clock.getElapsedTime() * 0.5) * 0.05;
     }
   });
 
   return (
-    <Points ref={pointsRef} positions={positions} stride={3}>
-      <PointMaterial
-        transparent
-        color={color}
-        size={0.07}
-        sizeAttenuation={true}
-        depthWrite={false}
-        opacity={0.65}
-      />
-    </Points>
+    <group ref={groupRef}>
+      <points ref={pointsRef}>
+        <bufferGeometry>
+          <bufferAttribute
+            attach="attributes-position"
+            count={positions.length / 3}
+            array={positions}
+            itemSize={3}
+          />
+        </bufferGeometry>
+        <pointsMaterial
+          color={color}
+          size={0.04}
+          transparent
+          opacity={0.8}
+          sizeAttenuation
+          depthWrite={false}
+          blending={THREE.AdditiveBlending}
+        />
+      </points>
+
+      <lineSegments ref={linesRef}>
+        <bufferGeometry>
+          <bufferAttribute
+            attach="attributes-position"
+            count={linePositions.length / 3}
+            array={linePositions}
+            itemSize={3}
+          />
+        </bufferGeometry>
+        <lineBasicMaterial
+          color={color}
+          transparent
+          opacity={0.12}
+          depthWrite={false}
+          blending={THREE.AdditiveBlending}
+        />
+      </lineSegments>
+    </group>
   );
 }
 
-// 3D Aesthetic Core Mesh
-function CoffeeShape({ kind, color }: { kind: string; color: string }) {
-  const meshRef = useRef<any>(null!);
-  const outerRef = useRef<any>(null!);
+// Sleek Data Rings (replacing aggressive Arc Reactor)
+function DataRings({ color = "#00E5FF" }: { color?: string }) {
+  const outerRingRef = useRef<any>(null!);
+  const midRingRef = useRef<any>(null!);
+  const innerCoreRef = useRef<any>(null!);
 
-  useFrame((_state, delta) => {
-    if (meshRef.current) {
-      meshRef.current.rotation.x += delta * 0.3;
-      meshRef.current.rotation.y += delta * 0.45;
+  useFrame((state, delta) => {
+    const time = state.clock.getElapsedTime();
+    if (outerRingRef.current) {
+      outerRingRef.current.rotation.z += delta * 0.1;
+      outerRingRef.current.rotation.x = Math.cos(time * 0.2) * 0.15;
     }
-    if (outerRef.current) {
-      outerRef.current.rotation.x -= delta * 0.15;
-      outerRef.current.rotation.z += delta * 0.25;
+    if (midRingRef.current) {
+      midRingRef.current.rotation.z -= delta * 0.15;
+      midRingRef.current.rotation.y = Math.sin(time * 0.3) * 0.2;
+    }
+    if (innerCoreRef.current) {
+      const scale = 1 + Math.sin(time * 2) * 0.03;
+      innerCoreRef.current.scale.set(scale, scale, scale);
     }
   });
 
-  let geometry;
-  switch (kind) {
-    case "🤖":
-      geometry = <torusKnotGeometry args={[1.2, 0.35, 128, 32]} />;
-      break;
-    case "🩺":
-      geometry = <icosahedronGeometry args={[1.6, 1]} />;
-      break;
-    case "✨":
-      geometry = <octahedronGeometry args={[1.7, 0]} />;
-      break;
-    case "🐾":
-      geometry = <coneGeometry args={[1.2, 2.4, 32]} />;
-      break;
-    case "🔒":
-      geometry = <dodecahedronGeometry args={[1.5, 0]} />;
-      break;
-    default:
-      geometry = <torusKnotGeometry args={[1.2, 0.35, 128, 32]} />;
-      break;
-  }
-
   return (
-    <Float speed={2.5} rotationIntensity={1.2} floatIntensity={2}>
-      <group>
-        {/* Inner Core Mesh */}
-        <mesh ref={meshRef}>
-          {geometry}
-          <meshStandardMaterial
-            color={color}
-            roughness={0.25}
-            metalness={0.7}
-            emissive={color}
-            emissiveIntensity={0.15}
-          />
-        </mesh>
+    <group>
+      <mesh ref={innerCoreRef}>
+        <sphereGeometry args={[0.3, 32, 32]} />
+        <meshStandardMaterial
+          color="#ffffff"
+          emissive={color}
+          emissiveIntensity={1.5}
+          roughness={0.2}
+          transparent
+          opacity={0.9}
+        />
+      </mesh>
 
-        {/* Outer Wireframe Aura */}
-        <mesh ref={outerRef} scale={1.22}>
-          {geometry}
-          <meshBasicMaterial
-            color="#a66e4e"
-            wireframe
-            transparent
-            opacity={0.3}
-          />
-        </mesh>
-      </group>
-    </Float>
+      <mesh ref={midRingRef} scale={1.8}>
+        <torusGeometry args={[1.2, 0.005, 16, 100]} />
+        <meshBasicMaterial color={color} transparent opacity={0.4} />
+      </mesh>
+
+      <mesh ref={outerRingRef} scale={2.2}>
+        <torusGeometry args={[1.1, 0.002, 16, 100]} />
+        <meshBasicMaterial color="#2979FF" transparent opacity={0.3} />
+      </mesh>
+    </group>
   );
 }
 
-export default function Hero3DVisual({ emoji, accent }: { emoji: string; accent: string }) {
+export default function Hero3DVisual({ accent = "#2979FF" }: { accent?: string }) {
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
@@ -116,27 +172,38 @@ export default function Hero3DVisual({ emoji, accent }: { emoji: string; accent:
 
   if (!mounted) return null;
 
-  const activeColor = accent || "#d98a5b";
+  const handlePointerDown = () => {
+    sound.playClick(); // Softer click for light theme
+  };
 
   return (
-    <div className="w-full h-full min-h-[380px] cursor-grab active:cursor-grabbing pointer-events-auto relative z-20">
+    <div
+      onPointerDown={handlePointerDown}
+      className="w-full h-full min-h-[460px] cursor-grab active:cursor-grabbing pointer-events-auto relative z-20 overflow-visible"
+    >
       <Canvas camera={{ position: [0, 0, 5.5], fov: 45 }}>
-        <ambientLight intensity={1} color="#fdfbf7" />
-        <directionalLight position={[10, 10, 8]} intensity={1.8} color="#fff8f0" />
-        <directionalLight position={[-10, -10, -5]} intensity={1.2} color={activeColor} />
-        <pointLight position={[0, 0, 3]} intensity={1} color="#e6a756" />
-        
-        <Environment preset="apartment" />
-        <CoffeeParticles count={280} color={activeColor} />
-        <CoffeeShape kind={emoji} color={activeColor} />
-        
+        {/* Soft, clean lighting for light mode */}
+        <ambientLight intensity={2.5} color="#ffffff" />
+        <directionalLight position={[10, 10, 8]} intensity={3} color="#ffffff" />
+        <directionalLight position={[-10, -10, -5]} intensity={2} color="#2979FF" />
+        <pointLight position={[0, 0, 3]} intensity={1.5} color="#00E5FF" />
+
+        <Environment preset="studio" />
+
+        <Float speed={2} rotationIntensity={0.5} floatIntensity={1.2}>
+          <group>
+            <NeuralBrainMesh color={accent} />
+            <DataRings color="#00E5FF" />
+          </group>
+        </Float>
+
         <ContactShadows
-          position={[0, -2.2, 0]}
-          opacity={0.35}
+          position={[0, -2.8, 0]}
+          opacity={0.15}
           scale={12}
           blur={2.5}
-          far={4.5}
-          color="#3d261d"
+          far={4}
+          color="#111111"
         />
       </Canvas>
     </div>

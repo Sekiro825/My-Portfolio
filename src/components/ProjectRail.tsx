@@ -3,6 +3,7 @@
 import { useRef, useState, useEffect, useCallback } from "react";
 import { motion } from "framer-motion";
 import { ChevronLeft, ChevronRight, Trophy } from "lucide-react";
+
 import ProjectCard from "./ProjectCard";
 import type { Project } from "@/types/portfolio";
 import { sound } from "@/lib/sound";
@@ -62,13 +63,13 @@ export default function ProjectRail({
           viewport={{ once: true }}
           className="flex items-center gap-3"
         >
-          <div className="w-2 h-6 bg-gradient-to-b from-[#d98a5b] to-[#a66e4e] rounded-full shadow-sm" />
-          <h2 className="font-display text-xl sm:text-2xl md:text-3xl font-bold text-[#2c1a14] tracking-tight flex items-center gap-2">
+          <div className="w-2.5 h-7 bg-gradient-to-b from-[#ff0055] to-[#00f0ff] rounded-full shadow-[0_0_12px_rgba(255,0,85,0.8)]" />
+          <h2 className="font-display text-xl sm:text-2xl md:text-3xl font-black text-white tracking-tight flex items-center gap-3 uppercase text-glow-cyan">
             {title}
           </h2>
           {isTop10 && (
-            <span className="flex items-center gap-1 text-xs font-mono font-bold text-[#a66e4e] px-2.5 py-0.5 rounded-lg bg-[#a66e4e]/10 border border-[#a66e4e]/30 uppercase tracking-widest">
-              <Trophy className="w-3.5 h-3.5 text-[#e6a756]" /> RANKED TOP
+            <span className="flex items-center gap-1.5 text-xs font-mono font-black text-[#e5b84c] px-3 py-1 rounded bg-[#e5b84c]/20 border border-[#e5b84c]/50 uppercase tracking-widest shadow-[0_0_15px_rgba(229,184,76,0.3)]">
+              <Trophy className="w-4 h-4 text-[#e5b84c]" /> S-RANKED MATRIX
             </span>
           )}
         </motion.div>
@@ -79,7 +80,7 @@ export default function ProjectRail({
             <button
               onClick={() => scroll("left")}
               onMouseEnter={() => sound.playHover()}
-              className="p-2 rounded-xl bg-white border border-[#e8dfd5] text-[#2c1a14] hover:bg-[#f4ebe1] transition-all shadow-sm"
+              className="p-2.5 rounded bg-[#181926] border border-[#00f0ff]/40 text-white hover:border-[#00f0ff] hover:text-[#00f0ff] transition-all shadow-[0_0_12px_rgba(0,240,255,0.2)]"
               aria-label="Scroll left"
             >
               <ChevronLeft className="w-5 h-5" />
@@ -89,7 +90,7 @@ export default function ProjectRail({
             <button
               onClick={() => scroll("right")}
               onMouseEnter={() => sound.playHover()}
-              className="p-2 rounded-xl bg-white border border-[#e8dfd5] text-[#2c1a14] hover:bg-[#f4ebe1] transition-all shadow-sm"
+              className="p-2.5 rounded bg-[#181926] border border-[#ff0055]/40 text-white hover:border-[#ff0055] hover:text-[#ff0055] transition-all shadow-[0_0_12px_rgba(255,0,85,0.2)]"
               aria-label="Scroll right"
             >
               <ChevronRight className="w-5 h-5" />

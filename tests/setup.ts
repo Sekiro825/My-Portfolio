@@ -38,20 +38,19 @@ vi.mock("@/lib/motion", () => ({
   prefersReduced: () => false,
 }));
 
-// Mock lucide-react icons
+// Mock lucide-react icons dynamically
 vi.mock("lucide-react", () => {
-  const icons = [
-    "ArrowRight", "Info", "ExternalLink", "Pause", "Play", "ChevronLeft", "ChevronRight", "ChevronDown",
-    "X", "Menu", "Github", "Linkedin", "FileText", "Code", "Award", "User", "Home",
-    "Download", "Mail", "MapPin", "Calendar", "Tag", "FolderOpen", "Heart", "Code2",
-    "Sparkles", "Loader2", "Plus", "Check", "ThumbsUp", "Volume2", "VolumeX", "Bookmark", "Film", "Search"
-  ];
-  const mockComponents: Record<string, any> = {};
-  icons.forEach((name) => {
-    mockComponents[name] = ({ ...props }: any) => React.createElement("svg", { "data-testid": `icon-${name.toLowerCase()}`, ...props });
-  });
-  return mockComponents;
+  return new Proxy(
+    {},
+    {
+      get: (_target, prop: string) => {
+        if (prop === "__esModule" || prop === "default") return undefined;
+        return ({ ...props }: any) => React.createElement("svg", { "data-testid": `icon-${prop.toLowerCase()}`, ...props });
+      },
+    }
+  );
 });
+
 
 // Mock next/font
 vi.mock("next/font/google", () => ({

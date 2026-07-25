@@ -47,24 +47,24 @@ export default function SearchModal({ isOpen, onClose, onSelectProject }: Props)
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
-        className="fixed inset-0 z-[160] flex flex-col bg-[#faf6f0]/98 backdrop-blur-3xl overflow-y-auto"
+        className="fixed inset-0 z-[160] flex flex-col bg-bg/90 backdrop-blur-xl overflow-y-auto"
       >
         {/* Header Search Bar */}
-        <div className="sticky top-0 z-10 flex items-center justify-between px-6 md:px-16 py-6 bg-[#faf6f0] border-b border-[#e8dfd5] shadow-sm">
+        <div className="sticky top-0 z-10 flex items-center justify-between px-6 md:px-16 py-6 bg-surface/90 border-b border-black/5 shadow-sm backdrop-blur-lg">
           <div className="flex items-center gap-4 flex-1 max-w-3xl">
-            <Search className="w-6 h-6 text-[#d98a5b] flex-shrink-0" />
+            <Search className="w-6 h-6 text-accent-blue flex-shrink-0" />
             <input
               type="text"
               value={query}
               onChange={e => setQuery(e.target.value)}
-              placeholder="SEARCH PROJECT MATRIX / TECH STACK..."
+              placeholder="Search projects, skills, or keywords..."
               autoFocus
-              className="w-full bg-transparent text-xl md:text-2xl text-[#2c1a14] placeholder:text-[#6e584e]/40 focus:outline-none font-mono tracking-wider"
+              className="w-full bg-transparent text-xl md:text-2xl text-text placeholder:text-muted focus:outline-none font-body font-medium"
             />
             {query && (
               <button
                 onClick={() => setQuery("")}
-                className="text-[#6e584e] hover:text-[#2c1a14] transition-colors"
+                className="text-muted hover:text-text transition-colors"
               >
                 <X className="w-5 h-5" />
               </button>
@@ -76,18 +76,18 @@ export default function SearchModal({ isOpen, onClose, onSelectProject }: Props)
               onClose();
             }}
             onMouseEnter={() => sound.playHover()}
-            className="p-2.5 rounded-xl bg-white hover:bg-[#2c1a14] text-[#2c1a14] hover:text-white border border-[#e8dfd5] transition-all ml-4 shadow-sm"
+            className="p-3 rounded-full bg-white hover:bg-black/5 text-text border border-black/10 transition-all ml-4 shadow-sm"
           >
-            <X className="w-6 h-6" />
+            <X className="w-5 h-5" />
           </button>
         </div>
 
         {/* Content */}
-        <div className="max-w-7xl w-full mx-auto px-6 md:px-16 py-10">
+        <div className="max-w-7xl w-full mx-auto px-6 md:px-16 py-12">
           {/* Quick Tag Chips */}
-          <div className="flex flex-wrap items-center gap-2 mb-8">
-            <span className="text-xs font-mono tracking-widest text-[#2c1a14] mr-2 flex items-center gap-1">
-              <Sparkles className="w-3.5 h-3.5 text-[#d98a5b]" /> QUICK FILTER:
+          <div className="flex flex-wrap items-center gap-3 mb-10">
+            <span className="text-sm font-mono font-medium text-muted mr-2 flex items-center gap-1.5">
+              <Sparkles className="w-4 h-4 text-accent-blue" /> Filter by tech:
             </span>
             <button
               onClick={() => {
@@ -95,13 +95,13 @@ export default function SearchModal({ isOpen, onClose, onSelectProject }: Props)
                 setSelectedTag(null);
               }}
               onMouseEnter={() => sound.playHover()}
-              className={`px-3 py-1 text-xs font-mono rounded-lg transition-all ${
+              className={`px-4 py-2 text-xs font-mono rounded-full transition-all font-semibold ${
                 selectedTag === null
-                  ? "bg-[#2c1a14] text-[#faf6f0] font-bold shadow-sm"
-                  : "bg-white hover:bg-[#f4ebe1] text-[#2c1a14] border border-[#e8dfd5]"
+                  ? "bg-text text-white shadow-md"
+                  : "bg-surface text-muted border border-black/10 hover:border-black/20 hover:text-text"
               }`}
             >
-              ALL
+              All
             </button>
             {allTechTags.map(tag => (
               <button
@@ -111,10 +111,10 @@ export default function SearchModal({ isOpen, onClose, onSelectProject }: Props)
                   setSelectedTag(selectedTag === tag ? null : tag);
                 }}
                 onMouseEnter={() => sound.playHover()}
-                className={`px-3 py-1 text-xs font-mono rounded-lg transition-all ${
+                className={`px-4 py-2 text-xs font-mono rounded-full transition-all font-semibold ${
                   selectedTag === tag
-                    ? "bg-[#d98a5b] text-white font-bold shadow-sm"
-                    : "bg-white hover:bg-[#f4ebe1] text-[#2c1a14] border border-[#e8dfd5]"
+                    ? "bg-accent-blue text-white shadow-md"
+                    : "bg-surface text-muted border border-black/10 hover:border-black/20 hover:text-text"
                 }`}
               >
                 {tag}
@@ -123,60 +123,62 @@ export default function SearchModal({ isOpen, onClose, onSelectProject }: Props)
           </div>
 
           {/* Results Heading */}
-          <h2 className="text-lg font-mono font-bold text-[#2c1a14] mb-6 flex items-center gap-2">
-            <Terminal className="w-5 h-5 text-[#d98a5b]" />
-            {query || selectedTag ? `QUERY MATCHES (${filteredProjects.length})` : "EXPLORE ALL DATABASE BUILDS"}
+          <h2 className="text-xl font-display font-semibold text-text mb-8 flex items-center gap-2">
+            <Terminal className="w-5 h-5 text-accent-blue" />
+            {query || selectedTag ? `Search Results (${filteredProjects.length})` : "Explore All Works"}
           </h2>
 
           {filteredProjects.length === 0 ? (
-            <div className="py-20 text-center text-[#6e584e] font-mono">
-              <Code className="w-12 h-12 mx-auto mb-4 text-[#d98a5b]" />
-              <p className="text-lg text-[#2c1a14]">No tactical records found for &quot;{query}&quot;</p>
+            <div className="py-24 text-center text-muted font-body">
+              <Code className="w-12 h-12 mx-auto mb-4 text-accent-blue opacity-50" />
+              <p className="text-lg">No matching projects found for &quot;{query}&quot;</p>
             </div>
           ) : (
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-              {filteredProjects.map(p => (
-                <motion.div
-                  key={p.id}
-                  layout
-                  onClick={() => {
-                    sound.playClick();
-                    onSelectProject(p);
-                    onClose();
-                  }}
-                  onMouseEnter={() => sound.playHover()}
-                  className="group cursor-pointer rounded-2xl bg-white border border-[#e8dfd5] overflow-hidden transition-all duration-300 hover:scale-105 hover:border-[#d98a5b] shadow-sm hover:shadow-md"
-                >
-                  <div
-                    className="h-36 relative flex items-center justify-center text-5xl"
-                    style={{
-                      background: `linear-gradient(135deg, #f4ebe1, #ebdcd0)`
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
+              {filteredProjects.map(p => {
+                const backdropFrom = p.backdrop.from || "#FAFAFA";
+                const backdropTo = p.backdrop.to || "#E0E0E0";
+                
+                return (
+                  <motion.div
+                    key={p.id}
+                    layout
+                    onClick={() => {
+                      sound.playClick();
+                      onSelectProject(p);
+                      onClose();
                     }}
+                    onMouseEnter={() => sound.playHover()}
+                    className="group cursor-pointer rounded-3xl bg-surface border border-black/5 overflow-hidden transition-all duration-300 hover:shadow-xl hover:-translate-y-1 glass-panel"
                   >
-                    <span>{p.backdrop.emoji || "⚡"}</span>
-                    {p.matchScore && (
-                      <span className="absolute top-2.5 right-2.5 px-2 py-0.5 rounded-md bg-[#2c1a14] text-white font-mono font-bold text-[10px]">
-                        {p.matchScore}% POWER
+                    <div
+                      className="h-40 relative flex items-center justify-center text-6xl"
+                      style={{
+                        background: `linear-gradient(135deg, ${backdropFrom}33, ${backdropTo}33)`,
+                      }}
+                    >
+                      <span className="transform transition-transform duration-500 group-hover:scale-110 drop-shadow-sm">
+                        {p.backdrop.emoji || "⚡"}
                       </span>
-                    )}
-                  </div>
-                  <div className="p-4">
-                    <h3 className="font-display font-bold text-[#2c1a14] text-base group-hover:text-[#d98a5b] transition-colors">
-                      {p.title}
-                    </h3>
-                    <p className="text-xs text-[#6e584e] line-clamp-2 mt-1 font-sans">
-                      {p.tagline}
-                    </p>
-                    <div className="flex flex-wrap gap-1.5 mt-3">
-                      {p.tech.slice(0, 3).map(t => (
-                        <span key={t} className="px-2 py-0.5 text-[10px] rounded-md bg-[#faf6f0] text-[#6e584e] font-mono border border-[#e8dfd5]">
-                          {t}
-                        </span>
-                      ))}
                     </div>
-                  </div>
-                </motion.div>
-              ))}
+                    <div className="p-6">
+                      <h3 className="font-display font-semibold text-text text-lg group-hover:text-accent-blue transition-colors leading-tight mb-2">
+                        {p.title}
+                      </h3>
+                      <p className="text-sm text-muted line-clamp-2 font-body mb-4">
+                        {p.tagline}
+                      </p>
+                      <div className="flex flex-wrap gap-2">
+                        {p.tech.slice(0, 3).map(t => (
+                          <span key={t} className="px-2.5 py-1 text-[10px] rounded-full bg-black/5 text-muted font-mono font-medium">
+                            {t}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+                  </motion.div>
+                );
+              })}
             </div>
           )}
         </div>

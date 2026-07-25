@@ -2,7 +2,7 @@
 
 import { useEffect, useState, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Play, Pause, Info, Plus, Check, Github, Zap, Sparkles } from "lucide-react";
+import { Play, Pause, Info, Plus, Check, Github, Zap, Sparkles, Shield, Flame } from "lucide-react";
 import { portfolio } from "@data/portfolio";
 import type { Project } from "@/types/portfolio";
 import { PROFILES, ProfileId } from "@/types/profile";
@@ -19,27 +19,25 @@ interface Props {
 const Backdrop = ({ proj }: { proj: Project }) => {
   const { backdrop } = proj;
   if (!backdrop) return null;
-  const { from } = backdrop;
-  
+
   return (
     <>
       <motion.div
-        className="absolute inset-0 z-0 bg-cyber-grid opacity-60"
+        className="absolute inset-0 z-0 cyber-grid opacity-70"
         style={{
-          background: `radial-gradient(ellipse 80% 60% at 50% 20%, ${from}22 0%, transparent 75%),
-                       radial-gradient(ellipse 60% 50% at 80% 70%, #ebdcd0 0%, transparent 65%),
-                       linear-gradient(180deg, #faf6f0, #f4ebe1)`
+          background: `radial-gradient(ellipse 80% 60% at 50% 20%, rgba(255, 0, 85, 0.15) 0%, transparent 75%),
+                       radial-gradient(ellipse 60% 50% at 80% 70%, rgba(0, 240, 255, 0.12) 0%, transparent 65%),
+                       linear-gradient(180deg, #0a0a0f, #12131c)`
         }}
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
         transition={{ duration: 0.8 }}
       />
-      {/* Coffee Dots & Speed lines */}
-      <div className="absolute inset-0 z-[1] manga-dots opacity-20 pointer-events-none" />
-      {/* Gradient Overlay Vignettes */}
-      <div className="absolute inset-0 z-[1] bg-gradient-to-t from-[#faf6f0] via-[#faf6f0]/40 to-transparent" />
-      <div className="absolute inset-0 z-[1] bg-gradient-to-r from-[#faf6f0] via-[#faf6f0]/60 to-transparent w-full lg:w-2/3" />
+      {/* Anime Manga Dots & Vignette */}
+      <div className="absolute inset-0 z-[1] manga-dots opacity-25 pointer-events-none" />
+      <div className="absolute inset-0 z-[1] bg-gradient-to-t from-[#0a0a0f] via-transparent to-[#0a0a0f]/60" />
+      <div className="absolute inset-0 z-[1] bg-gradient-to-r from-[#0a0a0f] via-[#0a0a0f]/80 to-transparent w-full lg:w-2/3" />
     </>
   );
 };
@@ -59,10 +57,10 @@ export default function HeroBillboard({
     id: "explorer",
     name: "Coffee Explorer",
     subtitle: "",
-    avatarBg: "from-amber-500 to-amber-800",
-    avatarIcon: "☕",
-    accentColor: "#D98A5B",
-    badge: "RANK #01 SHOWCASE",
+    avatarBg: "from-red-500 to-red-800",
+    avatarIcon: "⚡",
+    accentColor: "#ff0055",
+    badge: "S-CLASS SHADOW ARCHITECT",
     heroTagline: "",
     primaryCategory: "Trending Builds"
   };
@@ -84,7 +82,7 @@ export default function HeroBillboard({
 
   return (
     <section
-      className="relative min-h-[90vh] flex items-center overflow-hidden pt-20"
+      className="relative min-h-[92vh] flex items-center overflow-hidden pt-24 pb-12"
       onMouseEnter={() => setPaused(true)}
       onMouseLeave={() => setPaused(false)}
     >
@@ -92,19 +90,21 @@ export default function HeroBillboard({
         <Backdrop key={`bg-${proj.id}-${i}`} proj={proj} />
       </AnimatePresence>
 
-      <div className="relative z-10 w-full max-w-7xl mx-auto px-6 md:px-12 lg:px-20 py-16 flex flex-col lg:flex-row items-center justify-between gap-10 lg:gap-12">
-        {/* Left: Info */}
+      <div className="relative z-10 w-full max-w-7xl mx-auto px-6 md:px-12 lg:px-16 flex flex-col lg:flex-row items-center justify-between gap-12">
+        
+        {/* Left: Kinetic Anime Hero Narrative */}
         <div className="flex-1 text-center lg:text-left">
-          {/* Episode & Rank Badge */}
+          
+          {/* Episode & HUD Rank Badge */}
           <motion.div
-            initial={{ opacity: 0, x: -20 }}
+            initial={{ opacity: 0, x: -30 }}
             animate={{ opacity: 1, x: 0 }}
-            className="inline-flex items-center gap-2 px-3.5 py-1 mb-4 rounded-full bg-[#d98a5b]/15 border border-[#d98a5b]/40 text-[#2c1a14] text-xs font-mono font-bold tracking-widest uppercase shadow-sm"
+            className="inline-flex items-center gap-2.5 px-4 py-1.5 mb-5 rounded-md bg-[#ff0055]/15 border border-[#ff0055]/50 text-[#ff0055] text-xs font-mono font-bold tracking-widest uppercase shadow-[0_0_15px_rgba(255,0,85,0.3)] clip-cyber-corner"
           >
-            <Zap className="w-3.5 h-3.5 text-[#d98a5b]" />
-            <span>EPISODE 0{i + 1} {"//"} FEATURED BUILD</span>
-            <span className="text-[#6e584e]/40">•</span>
-            <span className="text-[#a66e4e]">{currentProfile.badge}</span>
+            <Zap className="w-4 h-4 text-[#00f0ff] animate-pulse" />
+            <span>ACT I {"//"} S-RANK MISSION #{i + 1}</span>
+            <span className="text-white/30">•</span>
+            <span className="text-[#e5b84c] font-black">{currentProfile.badge || "S-CLASS ARCHITECT"}</span>
           </motion.div>
 
           {/* Subtitle Header */}
@@ -112,39 +112,40 @@ export default function HeroBillboard({
             initial={{ opacity: 0, y: -10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.05 }}
-            className="flex items-center justify-center lg:justify-start gap-2 mb-2"
+            className="flex items-center justify-center lg:justify-start gap-2 mb-3"
           >
-            <span className="font-mono text-xs tracking-[0.25em] text-[#6e584e] uppercase font-bold">
-              {"SAKET POKALE // ARCHITECT ORIGINALS"}
+            <Shield className="w-4 h-4 text-[#00f0ff]" />
+            <span className="font-mono text-xs tracking-[0.3em] text-[#00f0ff] uppercase font-bold text-glow-cyan">
+              {"SAKET POKALE // SHADOW ARCHITECT MATRIX"}
             </span>
           </motion.div>
 
-          {/* Project Main Title */}
+          {/* Project Main Title (Anime Action Style) */}
           <motion.h1
             key={`t-${i}`}
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.1 }}
-            className="font-display text-4xl sm:text-6xl md:text-7xl font-black text-[#2c1a14] tracking-tight leading-[0.95] mb-4 text-glow-cyan"
+            initial={{ opacity: 0, y: 20, scale: 0.96 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            transition={{ delay: 0.1, duration: 0.4 }}
+            className="font-display text-4xl sm:text-6xl md:text-7xl lg:text-8xl font-black text-white tracking-tight leading-[0.95] mb-5 text-glow-pink uppercase"
           >
             {proj.title}
           </motion.h1>
 
-          {/* Match Score & Badges */}
+          {/* Power Stats Bar */}
           <motion.div
             key={`meta-${i}`}
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.15 }}
-            className="flex flex-wrap items-center justify-center lg:justify-start gap-3 mb-4 text-xs font-mono font-semibold"
+            className="flex flex-wrap items-center justify-center lg:justify-start gap-3 mb-5 text-xs font-mono font-bold"
           >
-            <span className="text-[#2c1a14] font-bold text-sm flex items-center gap-1.5 px-2.5 py-0.5 rounded-lg bg-white border border-[#e8dfd5] shadow-sm">
-              <Sparkles className="w-3.5 h-3.5 text-[#d98a5b]" />
-              POWER MATCH: {proj.matchScore || 99}%
+            <span className="text-black font-black text-xs flex items-center gap-1.5 px-3 py-1 rounded bg-gradient-to-r from-[#e5b84c] to-[#ff0055] shadow-[0_0_15px_rgba(229,184,76,0.4)] uppercase">
+              <Flame className="w-4 h-4 fill-current text-black" />
+              MATCH POWER: {proj.matchScore || 99}%
             </span>
-            <span className="px-2 py-0.5 border border-[#a66e4e]/40 text-[#a66e4e] bg-[#a66e4e]/10 rounded-lg font-bold">{proj.year}</span>
-            <span className="px-2 py-0.5 border border-[#e8dfd5] text-[#6e584e] rounded-lg bg-white">{proj.rating || "S-RANK • FULL-STACK"}</span>
-            <span className="px-2 py-0.5 bg-[#e6a756]/20 border border-[#e6a756]/40 text-[#2c1a14] font-bold rounded-lg text-[10px] tracking-wider">COFFEE 4K</span>
+            <span className="px-2.5 py-1 border border-[#ff0055]/60 text-[#ff0055] bg-[#ff0055]/10 rounded font-bold">{proj.year}</span>
+            <span className="px-2.5 py-1 border border-[#00f0ff]/40 text-[#00f0ff] rounded bg-[#00f0ff]/10 font-bold">{proj.rating || "S-RANK • FULL-STACK"}</span>
+            <span className="px-2.5 py-1 bg-[#e5b84c]/20 border border-[#e5b84c]/50 text-[#e5b84c] font-bold rounded text-[10px] tracking-widest uppercase">CYBER 4K</span>
           </motion.div>
 
           {/* Tagline */}
@@ -153,7 +154,7 @@ export default function HeroBillboard({
             initial={{ opacity: 0, y: 15 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2 }}
-            className="text-lg md:text-xl text-[#d98a5b] font-medium mb-3 max-w-2xl font-mono"
+            className="text-lg md:text-xl text-[#00f0ff] font-bold mb-3 max-w-2xl font-mono text-glow-cyan"
           >
             {proj.tagline}
           </motion.p>
@@ -164,12 +165,12 @@ export default function HeroBillboard({
             initial={{ opacity: 0, y: 15 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.25 }}
-            className="text-sm md:text-base text-[#6e584e] max-w-xl mb-6 leading-relaxed line-clamp-3 font-sans"
+            className="text-sm md:text-base text-gray-300 max-w-xl mb-6 leading-relaxed line-clamp-3 font-sans"
           >
             {proj.synopsis}
           </motion.p>
 
-          {/* Tech Matrix Chips */}
+          {/* Tech Chips */}
           <motion.div
             key={`tech-${i}`}
             initial={{ opacity: 0 }}
@@ -180,31 +181,31 @@ export default function HeroBillboard({
             {proj.tech.slice(0, 6).map(t => (
               <span
                 key={t}
-                className="px-2.5 py-1 text-xs rounded-lg bg-white text-[#2c1a14] border border-[#e8dfd5] font-mono font-medium shadow-sm"
+                className="px-3 py-1 text-xs rounded bg-[#181926] text-[#00f0ff] border border-[#00f0ff]/30 font-mono font-medium shadow-[0_0_10px_rgba(0,240,255,0.15)]"
               >
                 {t}
               </span>
             ))}
           </motion.div>
 
-          {/* Action Controls */}
+          {/* High Energy CTA Controls */}
           <motion.div
             key={`cta-${i}`}
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.35 }}
-            className="flex flex-wrap gap-3.5 justify-center lg:justify-start"
+            className="flex flex-wrap gap-4 justify-center lg:justify-start"
           >
             <button
               onClick={() => {
-                sound.playClick();
+                sound.playWhoosh();
                 onOpenModal(proj);
               }}
               onMouseEnter={() => sound.playHover()}
-              className="flex items-center gap-2.5 px-8 py-3.5 bg-[#2c1a14] hover:bg-[#3d261d] text-[#faf6f0] font-mono font-bold rounded-xl text-sm transition-all duration-300 shadow-[0_4px_20px_rgba(44,26,20,0.25)] hover:scale-105 uppercase tracking-wider"
+              className="flex items-center gap-3 px-8 py-4 bg-gradient-to-r from-[#ff0055] to-[#ff2a4b] hover:from-[#ff2a4b] hover:to-[#ff0055] text-white font-mono font-black rounded-lg text-sm transition-all duration-300 shadow-[0_0_25px_rgba(255,0,85,0.6)] hover:scale-105 uppercase tracking-widest clip-cyber-corner"
             >
-              <Play className="w-4 h-4 fill-current" />
-              <span>SUMMON DEMO</span>
+              <Play className="w-5 h-5 fill-current" />
+              <span>LAUNCH MISSION DEMO</span>
             </button>
 
             <button
@@ -213,9 +214,9 @@ export default function HeroBillboard({
                 onOpenModal(proj);
               }}
               onMouseEnter={() => sound.playHover()}
-              className="flex items-center gap-2.5 px-7 py-3.5 bg-white hover:bg-[#f4ebe1] text-[#2c1a14] font-mono font-semibold rounded-xl text-sm transition-all border border-[#e8dfd5] shadow-sm"
+              className="flex items-center gap-2.5 px-7 py-4 bg-[#181926] hover:bg-[#202235] text-white font-mono font-bold rounded-lg text-sm transition-all border border-[#00f0ff]/50 shadow-[0_0_15px_rgba(0,240,255,0.2)] hover:border-[#00f0ff]"
             >
-              <Info className="w-4 h-4 text-[#d98a5b]" />
+              <Info className="w-4 h-4 text-[#00f0ff]" />
               <span>TACTICAL DATA</span>
             </button>
 
@@ -225,14 +226,14 @@ export default function HeroBillboard({
                 onToggleMyList(proj.id);
               }}
               onMouseEnter={() => sound.playHover()}
-              className={`p-3.5 rounded-xl border transition-all flex items-center justify-center shadow-sm ${
+              className={`p-4 rounded-lg border transition-all flex items-center justify-center shadow-lg ${
                 inList
-                  ? "bg-[#d98a5b] border-[#d98a5b] text-white shadow-[0_4px_15px_rgba(217,138,91,0.4)]"
-                  : "bg-white border-[#e8dfd5] text-[#2c1a14] hover:text-[#d98a5b]"
+                  ? "bg-[#e5b84c] border-[#e5b84c] text-black shadow-[0_0_20px_rgba(229,184,76,0.6)]"
+                  : "bg-[#181926] border-gray-700 text-white hover:border-[#ff0055] hover:text-[#ff0055]"
               }`}
-              title={inList ? "Remove from Deck" : "Add to Deck"}
+              title={inList ? "Remove from Deck" : "Bookmark to Deck"}
             >
-              {inList ? <Check className="w-4 h-4" /> : <Plus className="w-4 h-4" />}
+              {inList ? <Check className="w-5 h-5 font-bold" /> : <Plus className="w-5 h-5" />}
             </button>
 
             {proj.repo && (
@@ -242,27 +243,82 @@ export default function HeroBillboard({
                 rel="noopener noreferrer"
                 onClick={() => sound.playClick()}
                 onMouseEnter={() => sound.playHover()}
-                className="p-3.5 rounded-xl bg-white hover:bg-[#f4ebe1] border border-[#e8dfd5] text-[#2c1a14] hover:text-[#d98a5b] transition-all shadow-sm"
+                className="p-4 rounded-lg bg-[#181926] hover:bg-[#202235] border border-gray-700 text-white hover:text-[#00f0ff] hover:border-[#00f0ff] transition-all shadow-md"
                 title="View GitHub Code Matrix"
               >
-                <Github className="w-4 h-4" />
+                <Github className="w-5 h-5" />
               </a>
             )}
           </motion.div>
         </div>
 
-        {/* Right: 3D Aesthetic Art Frame */}
-        <div className="flex items-center justify-center flex-shrink-0 w-[340px] h-[340px] relative z-20">
-          <div className="absolute inset-0 rounded-3xl border border-[#e8dfd5] bg-white/70 backdrop-blur-md shadow-[0_10px_35px_rgba(74,48,34,0.08)] pointer-events-none" />
-          <Hero3DVisual
-            emoji={proj.backdrop.emoji || "⚡"}
-            accent="#d98a5b"
-          />
+        {/* Right: Floating Manga Character Showcase & 3D Core */}
+        <div className="flex flex-col items-center justify-center flex-shrink-0 w-full lg:w-[480px] relative z-20">
+          
+          {/* Hero Avatar Card Frame */}
+          <div className="relative w-full max-w-[420px] aspect-[4/5] rounded-xl overflow-hidden border-2 border-[#ff0055]/60 bg-[#12131c] shadow-[0_0_40px_rgba(255,0,85,0.35)] group">
+            
+            {/* Background Manga FX */}
+            <div className="absolute inset-0 manga-dots-pink opacity-40" />
+            <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a0f] via-transparent to-transparent z-10" />
+
+            {/* Profile Avatar Image */}
+            <img
+              src="/My-Portfolio/Saket_Pokale.png"
+              alt="Saket Pokale - Anime Shadow Architect"
+              className="w-full h-full object-cover object-top filter contrast-110 saturate-110 group-hover:scale-105 transition-transform duration-700"
+              onError={(e) => {
+                const target = e.currentTarget;
+                if (target.src.includes("saket_avatar_stylized.png")) {
+                  target.onerror = null;
+                } else {
+                  target.src = "/My-Portfolio/saket_avatar_stylized.png";
+                }
+              }}
+            />
+
+            {/* Character Info Overlay Tag */}
+            <div className="absolute bottom-4 left-4 right-4 z-20 p-4 rounded-lg bg-[#0a0a0f]/90 border border-[#00f0ff]/40 backdrop-blur-md">
+              <div className="flex items-center justify-between mb-1">
+                <span className="text-xs font-mono font-bold text-[#ff0055] uppercase tracking-wider">
+                  HERO ARCHTYPE
+                </span>
+                <span className="px-2 py-0.5 rounded bg-[#e5b84c] text-black font-mono font-black text-[10px]">
+                  LVL 99 S-CLASS
+                </span>
+              </div>
+              <h3 className="text-xl font-display font-black text-white tracking-wide">
+                SAKET POKALE
+              </h3>
+              <p className="text-xs font-mono text-[#00f0ff]">
+                Full-Stack Systems & AI Intelligence Architect
+              </p>
+            </div>
+
+            {/* Corner Cyber HUD Decals */}
+            <div className="absolute top-3 left-3 z-20 px-2 py-1 bg-[#ff0055] text-white font-mono font-black text-[10px] uppercase rounded clip-cyber-corner">
+              LIVE TRANSMISSION
+            </div>
+            <div className="absolute top-3 right-3 z-20 flex items-center gap-1.5 px-2.5 py-1 bg-[#0a0a0f]/80 border border-[#00f0ff]/40 text-[#00f0ff] font-mono text-[10px] rounded">
+              <Sparkles className="w-3 h-3 text-[#e5b84c]" />
+              <span>SEKIRO MODE</span>
+            </div>
+          </div>
+
+          {/* 3D Visual Core Container below frame */}
+          <div className="w-full h-[180px] -mt-10 relative z-30">
+            <Hero3DVisual
+              key={proj.id}
+              accent="#ff0055"
+            />
+          </div>
+
         </div>
+
       </div>
 
-      {/* Coffee Slide Switcher */}
-      <div className="absolute bottom-6 left-0 right-0 z-20 flex items-center justify-center gap-3">
+      {/* Anime Episode Controls Switcher */}
+      <div className="absolute bottom-4 left-0 right-0 z-20 flex items-center justify-center gap-3">
         {featured.map((_, idx) => (
           <button
             key={idx}
@@ -271,10 +327,10 @@ export default function HeroBillboard({
               setI(idx);
             }}
             onMouseEnter={() => sound.playHover()}
-            className={`h-2 rounded-full transition-all duration-300 ${
+            className={`h-2.5 rounded-full transition-all duration-300 ${
               idx === i
-                ? "w-10 bg-gradient-to-r from-[#d98a5b] to-[#a66e4e] shadow-sm"
-                : "w-2 bg-[#2c1a14]/20 hover:bg-[#2c1a14]/50"
+                ? "w-12 bg-gradient-to-r from-[#ff0055] to-[#00f0ff] shadow-[0_0_12px_rgba(255,0,85,0.8)]"
+                : "w-3 bg-gray-700 hover:bg-gray-400"
             }`}
             aria-label={`Switch to Episode ${idx + 1}`}
           />
@@ -286,10 +342,10 @@ export default function HeroBillboard({
               setPaused(!paused);
             }}
             onMouseEnter={() => sound.playHover()}
-            className="ml-2 p-1.5 rounded-lg bg-white text-[#2c1a14] border border-[#e8dfd5] shadow-sm transition-colors"
+            className="ml-3 p-2 rounded bg-[#181926] text-[#00f0ff] border border-[#00f0ff]/40 hover:border-[#00f0ff] shadow-md transition-colors"
             aria-label={paused ? "Resume auto-scroll" : "Pause auto-scroll"}
           >
-            {paused ? <Play className="w-3 h-3" /> : <Pause className="w-3 h-3" />}
+            {paused ? <Play className="w-3.5 h-3.5" /> : <Pause className="w-3.5 h-3.5" />}
           </button>
         )}
       </div>

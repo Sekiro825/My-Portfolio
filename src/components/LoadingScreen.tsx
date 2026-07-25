@@ -75,7 +75,7 @@ export default function LoadingScreen() {
       <motion.div
         exit={{ opacity: 0 }}
         transition={{ duration: 0.5 }}
-        className="fixed inset-0 z-[200] flex flex-col items-center justify-center bg-[#faf6f0]"
+        className="fixed inset-0 z-[200] flex flex-col items-center justify-center bg-[#0a0a0f]"
         role="dialog"
         aria-modal="true"
         aria-label="Loading portfolio"
@@ -84,17 +84,17 @@ export default function LoadingScreen() {
 
         {/* Center Content */}
         <div className="relative z-10 flex flex-col items-center gap-6">
-          {/* Coffee Logo Badge */}
+          {/* Logo Badge */}
           <motion.div
             initial={{ scale: 0, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
             transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1], delay: logoVisible ? 0 : 0.2 }}
             className="relative"
           >
-            <div className="w-32 h-32 md:w-36 md:h-36 rounded-3xl bg-gradient-to-br from-[#d98a5b] via-[#a66e4e] to-[#2c1a14] p-[2px] shadow-[0_10px_35px_rgba(217,138,91,0.3)]">
-              <div className="w-full h-full bg-[#2c1a14] rounded-[22px] flex items-center justify-center flex-col">
-                <span className="font-display text-5xl font-black text-[#faf6f0]">S</span>
-                <span className="text-[10px] font-mono font-bold tracking-widest text-[#d98a5b] mt-1">SAKET</span>
+            <div className="w-32 h-32 md:w-36 md:h-36 rounded-2xl bg-gradient-to-br from-[#ff0055] via-[#00f0ff] to-[#e5b84c] p-[2px] shadow-[0_0_25px_rgba(255,0,85,0.4)] clip-cyber-corner">
+              <div className="w-full h-full bg-[#0a0a0f] rounded-[14px] flex items-center justify-center flex-col">
+                <span className="font-display text-5xl font-black text-white">S</span>
+                <span className="text-[10px] font-mono font-black tracking-widest text-[#ff0055] mt-1">SAKET</span>
               </div>
             </div>
           </motion.div>
@@ -107,28 +107,32 @@ export default function LoadingScreen() {
             className="text-center"
           >
             <div className="flex items-center justify-center gap-2 mb-1">
-              <span className="font-mono text-xl font-black text-[#2c1a14] tracking-widest">{"SAKET ARCHITECT"}</span>
+              <span className="font-mono text-2xl font-black text-white tracking-widest uppercase text-glow-pink">{"SAKET POKALE"}</span>
             </div>
-            <p className="text-xs font-mono tracking-[0.25em] text-[#6e584e] uppercase">{"INITIALIZING SYSTEM INTERFACE"}</p>
+            <p className="text-xs font-mono tracking-[0.2em] text-[#00f0ff] uppercase font-bold text-glow-cyan">{"GenAI • Cybersecurity • Full-Stack"}</p>
           </motion.div>
 
-          {/* Coffee Progress Meter */}
+          {/* Progress Meter */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.8, duration: 0.5 }}
             className="w-full max-w-sm px-4"
+            role="progressbar"
+            aria-valuenow={progress}
+            aria-valuemin={0}
+            aria-valuemax={100}
           >
             <div className="flex items-center justify-between gap-3 mb-2 font-mono text-xs">
-              <span className="text-[#d98a5b] font-bold tracking-widest">CHARGING CORE...</span>
-              <span className="text-[#2c1a14] font-bold">{progress}%</span>
+              <span className="text-[#ff0055] font-bold tracking-widest">CHARGING CORE...</span>
+              <span className="text-white font-bold">{progress}%</span>
             </div>
-            <div className="h-2.5 bg-white rounded-full overflow-hidden border border-[#e8dfd5] p-0.5 shadow-sm">
+            <div className="h-2.5 bg-[#181926] rounded-full overflow-hidden border border-[#00f0ff]/40 p-0.5 shadow-sm">
               <motion.div
                 initial={{ width: 0 }}
                 animate={{ width: `${progress}%` }}
                 transition={{ duration: 0.1, ease: "linear" }}
-                className="h-full bg-gradient-to-r from-[#d98a5b] via-[#a66e4e] to-[#e6a756] rounded-full"
+                className="h-full bg-gradient-to-r from-[#ff0055] via-[#00f0ff] to-[#e5b84c] rounded-full"
               />
             </div>
           </motion.div>
@@ -149,9 +153,9 @@ export default function LoadingScreen() {
                 <motion.span
                   animate={{ opacity: [0.4, 1, 0.4] }}
                   transition={{ duration: 1.2, repeat: Infinity, ease: "easeInOut" }}
-                  className="font-mono text-xs tracking-[0.25em] text-[#d98a5b] uppercase font-bold"
+                  className="font-mono text-xs tracking-[0.2em] text-[#e5b84c] uppercase font-black"
                 >
-                  [ CLICK / PRESS ANY KEY TO INITIALIZE ]
+                  PRESS ANY KEY TO ENTER
                 </motion.span>
               </motion.div>
             )}

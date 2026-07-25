@@ -3,6 +3,7 @@
 import { useState, useEffect, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Search, Volume2, VolumeX, Menu, X, Github, Linkedin, FileText, Code, Award, User, Home, Bookmark } from "lucide-react";
+
 import { portfolio } from "@data/portfolio";
 import { sound } from "@/lib/sound";
 
@@ -66,71 +67,66 @@ export default function Navbar({
   };
 
   const NAV_ITEMS = [
-    { id: "home", label: "01. HOME", icon: Home, href: "#" },
-    { id: "projects", label: "02. BUILDS", icon: Code, href: "#projects" },
-    { id: "skills", label: "03. SKILLS", icon: Award, href: "#skills" },
-    { id: "about", label: "04. DOSSIER", icon: User, href: "#about" },
-    { id: "resume", label: "05. RESUME", icon: FileText, href: portfolio.bio.resumePath, download: true },
+    { id: "home", label: "01. Home", icon: Home, href: "#" },
+    { id: "projects", label: "02. Works", icon: Code, href: "#projects" },
+    { id: "skills", label: "03. Skills", icon: Award, href: "#skills" },
+    { id: "about", label: "04. About", icon: User, href: "#about" },
+    { id: "resume", label: "05. Resume", icon: FileText, href: portfolio.bio.resumePath, download: true },
   ];
 
   return (
     <header
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
         scrolled
-          ? "bg-[#faf6f0]/95 backdrop-blur-xl border-b border-[#e8dfd5] shadow-[0_4px_20px_rgba(44,26,20,0.06)] py-3"
-          : "bg-gradient-to-b from-[#faf6f0] via-[#faf6f0]/60 to-transparent py-4"
+          ? "bg-surface/80 backdrop-blur-2xl border-b border-black/5 py-3 shadow-sm"
+          : "bg-transparent py-5"
       }`}
     >
-      <nav className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 flex items-center justify-between" aria-label="Coffee Aesthetic Navigation">
-        {/* Left Branding */}
+      <nav className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 flex items-center justify-between">
+        
+        {/* Brand */}
         <div className="flex items-center gap-8">
           <div
             className="flex items-center gap-3 select-none cursor-pointer group"
             onClick={() => go("#")}
             onMouseEnter={() => sound.playHover()}
           >
-            <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-[#d98a5b] via-[#a66e4e] to-[#2c1a14] p-[1.5px] shadow-[0_4px_15px_rgba(217,138,91,0.3)] group-hover:scale-105 transition-all">
-              <div className="w-full h-full bg-[#2c1a14] rounded-[10px] flex items-center justify-center">
-                <span className="font-display text-lg font-black text-[#faf6f0] group-hover:text-[#d98a5b] transition-colors">
+            <div className="w-10 h-10 rounded-full bg-gradient-to-tr from-accent-blue to-accent-cyan p-[2px] shadow-sm group-hover:scale-105 transition-all">
+              <div className="w-full h-full bg-surface rounded-full flex items-center justify-center">
+                <span className="font-display text-lg font-bold text-text group-hover:text-accent-blue transition-colors">
                   S
                 </span>
               </div>
             </div>
             <div className="flex flex-col">
-              <div className="flex items-center gap-1.5">
-                <span className="font-display font-black text-lg tracking-[0.18em] text-[#2c1a14] group-hover:text-[#d98a5b] transition-colors">
+              <div className="flex items-center gap-2">
+                <span className="font-display font-bold text-lg tracking-widest text-text group-hover:text-accent-blue transition-colors uppercase">
                   SAKET
                 </span>
-                <span className="text-[10px] px-1.5 py-0.5 rounded bg-[#d98a5b]/15 border border-[#d98a5b]/40 text-[#d98a5b] font-mono font-bold tracking-widest">
-                  LVL 99
+                <span className="text-[10px] px-2 py-0.5 rounded-full bg-black/5 text-muted font-mono font-medium tracking-wide">
+                  INTEL
                 </span>
               </div>
-              <span className="text-[9px] font-mono tracking-[0.25em] text-[#6e584e] uppercase leading-none mt-0.5">
-                {"SYSTEM ARCHITECT"}
+              <span className="text-[10px] font-mono tracking-widest text-muted uppercase mt-0.5 font-medium">
+                AI Architect
               </span>
             </div>
           </div>
 
-          {/* Desktop Nav Items */}
+          {/* Desktop Nav */}
           <div className="hidden lg:flex items-center gap-6">
             {NAV_ITEMS.map(item => (
               <button
                 key={item.id}
                 onClick={() => go(item.href, item.download)}
                 onMouseEnter={() => sound.playHover()}
-                className={`relative text-xs font-mono tracking-widest transition-colors duration-200 uppercase px-2 py-1 ${
+                className={`relative text-xs font-mono tracking-wider transition-colors duration-200 uppercase px-3 py-1.5 rounded-full ${
                   active === item.id
-                    ? "text-[#d98a5b] font-bold"
-                    : "text-[#6e584e] hover:text-[#2c1a14] font-medium"
+                    ? "text-accent-blue font-semibold bg-accent-blue/10"
+                    : "text-muted hover:text-text font-medium hover:bg-black/5"
                 }`}
               >
                 {item.label}
-                {active === item.id && (
-                  <motion.span
-                    layoutId="coffee-nav-underline"
-                    className="absolute bottom-0 left-0 right-0 h-[2px] bg-gradient-to-r from-[#d98a5b] via-[#a66e4e] to-[#e6a756] rounded-full shadow-[0_0_8px_rgba(217,138,91,0.4)]"
-                  />
-                )}
               </button>
             ))}
           </div>
@@ -138,21 +134,19 @@ export default function Navbar({
 
         {/* Right Actions */}
         <div className="flex items-center gap-3 md:gap-4">
-          {/* Search Button */}
+          
           <button
             onClick={() => {
               sound.playClick();
               onOpenSearch();
             }}
             onMouseEnter={() => sound.playHover()}
-            className="flex items-center gap-2 px-3.5 py-1.5 rounded-xl bg-white hover:bg-[#f4ebe1] text-[#2c1a14] border border-[#e8dfd5] transition-all text-xs font-mono font-semibold shadow-sm"
-            title="Search projects & stack"
+            className="flex items-center gap-2 px-4 py-2 rounded-full bg-surface hover:bg-black/5 text-text border border-black/10 transition-all text-xs font-body font-medium shadow-sm hover:shadow"
           >
-            <Search className="w-3.5 h-3.5 text-[#d98a5b]" />
-            <span className="hidden sm:inline">SEARCH</span>
+            <Search className="w-4 h-4 text-muted" />
+            <span className="hidden sm:inline">Search</span>
           </button>
 
-          {/* My List Bookmark */}
           {onOpenMyList && (
             <button
               onClick={() => {
@@ -160,41 +154,38 @@ export default function Navbar({
                 onOpenMyList();
               }}
               onMouseEnter={() => sound.playHover()}
-              className="relative p-2 rounded-xl bg-white hover:bg-[#f4ebe1] text-[#2c1a14] border border-[#e8dfd5] transition-colors shadow-sm"
-              title="My Bookmarked Deck"
+              className="relative p-2.5 rounded-full bg-surface hover:bg-black/5 text-text border border-black/10 transition-colors shadow-sm hover:shadow"
+              title="Saved Works"
             >
-              <Bookmark className="w-4 h-4 text-[#a66e4e]" />
+              <Bookmark className="w-4 h-4 text-muted" />
               {myListCount > 0 && (
-                <span className="absolute -top-1.5 -right-1.5 w-4 h-4 rounded-full bg-[#d98a5b] text-white text-[10px] font-mono font-bold flex items-center justify-center shadow-sm">
+                <span className="absolute -top-1 -right-1 w-4 h-4 rounded-full bg-accent-blue text-white text-[10px] font-mono font-bold flex items-center justify-center shadow-md">
                   {myListCount}
                 </span>
               )}
             </button>
           )}
 
-          {/* Sound Audio Toggle */}
           <button
             onClick={toggleAudioSFX}
             onMouseEnter={() => sound.playHover()}
-            className={`flex items-center gap-1.5 px-2.5 py-1.5 rounded-xl border text-xs font-mono font-bold transition-all ${
+            className={`flex items-center justify-center w-9 h-9 rounded-full border transition-all ${
               isMuted
-                ? "bg-white/50 border-[#e8dfd5] text-[#a66e4e]/50 hover:text-[#2c1a14]"
-                : "bg-[#e6a756]/15 border-[#e6a756]/40 text-[#2c1a14] shadow-sm"
+                ? "bg-surface border-black/10 text-muted hover:text-text hover:bg-black/5"
+                : "bg-accent-blue/10 border-accent-blue/20 text-accent-blue shadow-sm"
             }`}
-            title={isMuted ? "Unmute Coffee Audio SFX" : "Mute Coffee Audio SFX"}
+            title={isMuted ? "Unmute Sound" : "Mute Sound"}
           >
-            {isMuted ? <VolumeX className="w-3.5 h-3.5" /> : <Volume2 className="w-3.5 h-3.5 text-[#d98a5b]" />}
-            <span className="hidden md:inline">{isMuted ? "SFX OFF" : "SFX ON"}</span>
+            {isMuted ? <VolumeX className="w-4 h-4" /> : <Volume2 className="w-4 h-4" />}
           </button>
 
-          {/* Mobile Hamburger */}
+          {/* Mobile Menu Toggle */}
           <button
             onClick={() => {
               sound.playClick();
               setOpen(!open);
             }}
-            className="lg:hidden p-2 text-[#2c1a14]"
-            aria-label="Toggle menu"
+            className="lg:hidden p-2 text-text"
           >
             {open ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
           </button>
@@ -208,24 +199,24 @@ export default function Navbar({
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: "auto" }}
             exit={{ opacity: 0, height: 0 }}
-            className="lg:hidden bg-[#faf6f0] border-t border-[#e8dfd5] px-6 py-4 space-y-3 shadow-lg"
+            className="lg:hidden bg-surface/95 backdrop-blur-xl border-t border-black/5 px-6 py-4 space-y-2 shadow-xl"
           >
             {NAV_ITEMS.map(item => (
               <button
                 key={item.id}
                 onClick={() => go(item.href, item.download)}
-                className="w-full flex items-center gap-3 py-2 text-xs font-mono tracking-widest text-[#2c1a14] hover:text-[#d98a5b] transition-colors"
+                className="w-full flex items-center gap-3 py-3 px-4 rounded-xl text-sm font-mono tracking-wider text-muted hover:text-accent-blue hover:bg-black/5 transition-all uppercase font-medium"
               >
-                <item.icon className="w-4 h-4 text-[#a66e4e]" />
+                <item.icon className="w-4 h-4" />
                 <span>{item.label}</span>
               </button>
             ))}
-            <div className="flex gap-4 pt-3 border-t border-[#e8dfd5]">
+            <div className="flex gap-4 pt-4 px-4 border-t border-black/5">
               <a
                 href={portfolio.bio.github}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center gap-2 text-xs font-mono text-[#2c1a14] hover:text-[#d98a5b]"
+                className="flex items-center gap-2 text-xs font-mono text-muted hover:text-accent-blue transition-colors"
               >
                 <Github className="w-4 h-4" /> GITHUB
               </a>
@@ -233,7 +224,7 @@ export default function Navbar({
                 href={portfolio.bio.linkedin}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center gap-2 text-xs font-mono text-[#a66e4e] hover:text-[#2c1a14]"
+                className="flex items-center gap-2 text-xs font-mono text-muted hover:text-accent-blue transition-colors"
               >
                 <Linkedin className="w-4 h-4" /> LINKEDIN
               </a>

@@ -39,9 +39,10 @@ describe("LoadingScreen", () => {
     expect(screen.getByRole("progressbar")).toBeInTheDocument();
 
     // not yet at 100%
-    const prompt = screen.getByText("PRESS ANY KEY TO ENTER");
-    expect(prompt).toBeInTheDocument();
+    const prompt = screen.queryByText("PRESS ANY KEY TO ENTER");
+    expect(prompt).not.toBeInTheDocument();
   });
+
 
   it("shows prompt at 100% progress and dismisses on key press", () => {
     render(<LoadingScreen />);

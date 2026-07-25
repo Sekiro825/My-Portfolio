@@ -3,22 +3,17 @@
 @tailwind utilities;
 
 :root {
-  --coffee-bg: #faf6f0;
-  --coffee-card: #ffffff;
-  --coffee-espresso: #2c1a14;
-  --coffee-[#2C1A14]: #3d261d;
-  --coffee-mocha: #6e584e;
-  --coffee-caramel: #d98a5b;
-  --coffee-cinnamon: #a66e4e;
-  --coffee-cream: #f4ebe1;
-  --coffee-honey: #e6a756;
-  --coffee-border: #e8dfd5;
+  --lusion-bg: #FAFAFA;
+  --lusion-surface: #FFFFFF;
+  --lusion-text: #111111;
+  --lusion-text-muted: #666666;
 
-  --cyber-cyan: #d98a5b;
-  --neon-pink: #a66e4e;
-  --electric-purple: #8c5a3c;
-  --gold-aura: #e6a756;
-  --void-bg: #faf6f0;
+  --lusion-accent-cyan: #00E5FF;
+  --lusion-accent-blue: #2979FF;
+  
+  --font-body: 'Inter', system-ui, sans-serif;
+  --font-display: 'Outfit', system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
 }
 
 * {
@@ -27,9 +22,9 @@
 
 html,
 body {
-  background: var(--coffee-bg);
-  color: var(--coffee-espresso);
-  font-family: var(--font-body), -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  background: var(--lusion-bg);
+  color: var(--lusion-text);
+  font-family: var(--font-body);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   scroll-behavior: smooth;
@@ -40,117 +35,38 @@ body {
 
 /* Selection */
 ::selection {
-  background: var(--coffee-caramel);
+  background: var(--lusion-accent-blue);
   color: #ffffff;
 }
 
-/* Soft Coffee Grid & Grain Patterns */
-.manga-dots {
-  background-image: radial-gradient(rgba(217, 138, 91, 0.15) 1.5px, transparent 1.5px);
-  background-size: 18px 18px;
+/* Premium Glass Panels */
+.glass-panel {
+  background: rgba(255, 255, 255, 0.75);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.04);
 }
 
-.manga-dots-pink {
-  background-image: radial-gradient(rgba(166, 110, 78, 0.15) 1.5px, transparent 1.5px);
-  background-size: 18px 18px;
+.glass-panel:hover {
+  background: rgba(255, 255, 255, 0.9);
+  box-shadow: 0 12px 48px rgba(0, 0, 0, 0.08);
 }
 
-.cyber-grid {
-  background-size: 40px 40px;
-  background-image:
-    linear-gradient(to right, rgba(217, 138, 91, 0.08) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(217, 138, 91, 0.08) 1px, transparent 1px);
-}
-
-.cyber-speedlines {
-  background: repeating-linear-gradient(
-    90deg,
-    transparent,
-    transparent 10px,
-    rgba(217, 138, 91, 0.04) 11px,
-    rgba(217, 138, 91, 0.04) 12px
-  );
-}
-
-/* Scanlines replaced with soft warm vignette */
-.scanlines {
-  position: fixed;
-  inset: 0;
-  z-index: 1;
-  pointer-events: none;
-  opacity: 0.03;
-  background-image: repeating-linear-gradient(
-    0deg,
-    rgba(44, 26, 20, 0.4) 0px,
-    rgba(44, 26, 20, 0.4) 1px,
-    transparent 1px,
-    transparent 4px
-  );
-}
-
-.vignette {
-  position: fixed;
-  inset: 0;
-  z-index: 2;
-  pointer-events: none;
-  background: radial-gradient(ellipse at center, transparent 60%, rgba(244, 235, 225, 0.4) 100%);
-}
-
-/* Polygon Cuts for HUD look in Coffee Aesthetic */
-.clip-cyber-corner {
-  clip-path: polygon(0 0, calc(100% - 16px) 0, 100% 16px, 100% 100%, 16px 100%, 0 calc(100% - 16px));
-}
-
-.clip-cyber-card {
-  clip-path: polygon(0 0, calc(100% - 20px) 0, 100% 20px, 100% 100%, 0 100%);
-}
-
-/* Warm Coffee Glow Effects */
-.text-glow-cyan {
-  text-shadow: 0 2px 10px rgba(217, 138, 91, 0.3);
-}
-
-.text-glow-pink {
-  text-shadow: 0 2px 10px rgba(166, 110, 78, 0.3);
-}
-
-.text-glow-gold {
-  text-shadow: 0 2px 10px rgba(230, 167, 86, 0.35);
-}
-
-.glow-cyan-box {
-  box-shadow: 0 10px 30px rgba(217, 138, 91, 0.2);
-}
-
-/* Coffee Glass Panels */
-.cyber-panel {
-  background: rgba(255, 255, 255, 0.92);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border: 1px solid #e8dfd5;
-}
-
-.cyber-panel-pink {
-  background: rgba(248, 243, 237, 0.95);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border: 1px solid #dfd0c0;
-}
-
-/* Custom Scrollbar */
+/* Custom Minimalist Scrollbar */
 ::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
+  width: 6px;
+  height: 6px;
 }
 ::-webkit-scrollbar-track {
-  background: #faf6f0;
+  background: transparent;
 }
 ::-webkit-scrollbar-thumb {
-  background: linear-gradient(180deg, #d98a5b, #a66e4e);
-  border-radius: 4px;
+  background: #E0E0E0;
+  border-radius: 3px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #2c1a14;
+  background: #BDBDBD;
 }
 
 .hide-scrollbar {
@@ -163,6 +79,6 @@ body {
 
 /* Accessibility */
 :focus-visible {
-  outline: 2px solid var(--coffee-caramel);
+  outline: 2px solid var(--lusion-accent-blue);
   outline-offset: 2px;
 }
