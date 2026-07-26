@@ -4,8 +4,10 @@ import { motion } from "framer-motion";
 import { ArrowRight, Download } from "lucide-react";
 import { portfolio } from "@data/portfolio";
 import type { Project } from "@/types/portfolio";
-import Hero3DVisual from "./Hero3DVisual";
+import dynamic from "next/dynamic";
 import { sound } from "@/lib/sound";
+
+const Hero3DVisual = dynamic(() => import("./Hero3DVisual"), { ssr: false });
 
 interface Props {
   onOpenModal: (p: Project) => void;
@@ -35,7 +37,7 @@ export default function PremiumHeroStage({ onOpenModal }: Props) {
           >
             <span className="w-2 h-2 rounded-full bg-accent-blue animate-pulse" />
             <span className="font-mono text-xs font-semibold tracking-wider text-text uppercase">
-              AI Engineer & Architect
+              AI, Data & Cloud Architect
             </span>
           </motion.div>
 
@@ -43,11 +45,11 @@ export default function PremiumHeroStage({ onOpenModal }: Props) {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
-            className="font-display text-5xl sm:text-7xl md:text-[5.5rem] lg:text-[6.5rem] font-bold text-text tracking-tight leading-[1.05] mb-6"
+            className="font-display text-4xl sm:text-5xl md:text-7xl lg:text-[6.5rem] font-bold text-text tracking-tight leading-[1.05] mb-6"
           >
-            Building the <br />
+            Architecting <br />
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-accent-blue to-accent-cyan">
-              Future of Web
+              Intelligent Cloud Systems
             </span>
           </motion.h1>
 
@@ -73,7 +75,7 @@ export default function PremiumHeroStage({ onOpenModal }: Props) {
                   onOpenModal(featured);
                 }}
                 onMouseEnter={() => sound.playHover()}
-                className="group flex items-center gap-3 px-8 py-4 bg-text text-white font-body font-medium rounded-full text-sm transition-all duration-300 hover:bg-black hover:shadow-xl hover:-translate-y-1"
+                className="group w-full sm:w-auto justify-center flex items-center gap-3 px-8 py-4 bg-text text-white font-body font-medium rounded-full text-sm transition-all duration-300 hover:bg-black hover:shadow-xl hover:-translate-y-1"
               >
                 <span>View Featured Work</span>
                 <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
@@ -86,7 +88,7 @@ export default function PremiumHeroStage({ onOpenModal }: Props) {
               rel="noopener noreferrer"
               onClick={() => sound.playClick()}
               onMouseEnter={() => sound.playHover()}
-              className="flex items-center gap-2 px-8 py-4 bg-white/50 hover:bg-white text-text font-body font-medium rounded-full text-sm transition-all duration-300 border border-black/5 hover:border-black/10 hover:shadow-lg backdrop-blur-sm hover:-translate-y-1"
+              className="w-full sm:w-auto justify-center flex items-center gap-2 px-8 py-4 bg-white/50 hover:bg-white text-text font-body font-medium rounded-full text-sm transition-all duration-300 border border-black/5 hover:border-black/10 hover:shadow-lg backdrop-blur-sm hover:-translate-y-1"
             >
               <Download className="w-4 h-4" />
               <span>Resume</span>
@@ -101,7 +103,7 @@ export default function PremiumHeroStage({ onOpenModal }: Props) {
           transition={{ duration: 1.2, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
           className="flex-1 flex justify-center lg:justify-end items-center relative w-full lg:h-[600px] z-10"
         >
-          <div className="w-full h-[400px] sm:h-[500px] lg:h-full relative cursor-grab active:cursor-grabbing group">
+          <div className="w-full h-[300px] sm:h-[400px] lg:h-full relative cursor-grab active:cursor-grabbing group">
              {/* The 3D component handles its own canvas */}
              <Hero3DVisual accent="#2979FF" />
           </div>

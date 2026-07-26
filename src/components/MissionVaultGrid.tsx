@@ -59,7 +59,7 @@ export default function MissionVaultGrid({
             initial={{ opacity: 0, y: 15 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="flex flex-wrap gap-2 p-1.5 rounded-full bg-surface border border-black/5 shadow-sm"
+            className="flex overflow-x-auto sm:flex-wrap gap-2 p-1.5 rounded-full bg-surface border border-black/5 shadow-sm scrollbar-none"
           >
             {categories.map(cat => {
               const active = selectedCategory === cat;

@@ -11,9 +11,11 @@ import AchievementsGrid from "./AchievementsGrid";
 import AboutPanel from "./AboutPanel";
 import Footer from "./Footer";
 import ProjectModal from "./ProjectModal";
-import FluidCursor from "./canvas/FluidCursor";
+import dynamic from "next/dynamic";
 import { portfolio } from "@data/portfolio";
 import type { Project } from "@/types/portfolio";
+
+const FluidCursor = dynamic(() => import("./canvas/FluidCursor"), { ssr: false });
 
 export default function PageContent() {
   const [isSearchOpen, setIsSearchOpen] = useState(false);

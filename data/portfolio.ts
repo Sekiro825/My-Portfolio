@@ -4,11 +4,11 @@ export const portfolio: Portfolio = {
   bio: {
     name: "Saket Sanjay Pokale",
     handle: "Sekiro825",
-    tagline: "Product Engineer • GenAI × Cybersecurity • Full-Stack Builder",
+    tagline: "AI & Data Scientist • Systems Architect • Cloud Engineer",
     body: [
-      "Motivated Product Engineer trainee with a strong bias for action, passionate about building foundational systems at the intersection of Generative AI and Cybersecurity.",
-      "Hands-on experience developing real-world full-stack applications and deploying secure AI/ML solutions from scratch — from RAG pipelines with ChromaDB to PII filters for enterprise LLMs.",
-      "Currently prototyping and refining Generative AI and traditional ML modalities for production-level enterprise applications at CMT Private Limited."
+      "Dynamic AI Engineer & Data Scientist passionate about building intelligent models, robust systems, and scalable cloud infrastructure.",
+      "Hands-on experience developing real-world AI/ML solutions, architecting end-to-end data pipelines, and designing secure, high-performance cloud ecosystems.",
+      "Currently prototyping and refining advanced Generative AI modalities and system architectures for production-level enterprise applications."
     ],
     location: "Mumbai, India",
     github: "https://github.com/Sekiro825",

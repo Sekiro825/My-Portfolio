@@ -181,7 +181,7 @@ export default function Hero3DVisual({ accent = "#2979FF" }: { accent?: string }
       onPointerDown={handlePointerDown}
       className="w-full h-full min-h-[460px] cursor-grab active:cursor-grabbing pointer-events-auto relative z-20 overflow-visible"
     >
-      <Canvas camera={{ position: [0, 0, 5.5], fov: 45 }}>
+      <Canvas camera={{ position: [0, 0, 5.5], fov: 45 }} dpr={[1, 1.5]} performance={{ min: 0.5 }}>
         {/* Soft, clean lighting for light mode */}
         <ambientLight intensity={2.5} color="#ffffff" />
         <directionalLight position={[10, 10, 8]} intensity={3} color="#ffffff" />

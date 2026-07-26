@@ -14,16 +14,18 @@ export default function FluidCursor() {
       try {
         const webGLFluidEnhanced = (await import("webgl-fluid")).default;
         
+        const isMobileOrLowEnd = window.matchMedia("(any-hover: none)").matches || window.innerWidth < 768;
+
         webGLFluidEnhanced(canvasRef.current, {
           IMMEDIATE: true,
           TRIGGER: "hover",
-          SIM_RESOLUTION: 128,
-          DYE_RESOLUTION: 1024,
-          CAPTURE_RESOLUTION: 512,
+          SIM_RESOLUTION: isMobileOrLowEnd ? 64 : 128,
+          DYE_RESOLUTION: isMobileOrLowEnd ? 256 : 1024,
+          CAPTURE_RESOLUTION: isMobileOrLowEnd ? 256 : 512,
           DENSITY_DISSIPATION: 1,
           VELOCITY_DISSIPATION: 0.2,
           PRESSURE: 0.8,
-          PRESSURE_ITERATIONS: 20,
+          PRESSURE_ITERATIONS: isMobileOrLowEnd ? 10 : 20,
           CURL: 30,
           SPLAT_RADIUS: 0.25,
           SPLAT_FORCE: 6000,
@@ -33,14 +35,14 @@ export default function FluidCursor() {
           PAUSED: false,
           BACK_COLOR: { r: 250, g: 250, b: 250 }, // Matches #FAFAFA
           TRANSPARENT: true,
-          BLOOM: true,
-          BLOOM_ITERATIONS: 8,
-          BLOOM_RESOLUTION: 256,
+          BLOOM: !isMobileOrLowEnd,
+          BLOOM_ITERATIONS: isMobileOrLowEnd ? 0 : 8,
+          BLOOM_RESOLUTION: isMobileOrLowEnd ? 0 : 256,
           BLOOM_INTENSITY: 0.8,
           BLOOM_THRESHOLD: 0.6,
           BLOOM_SOFT_KNEE: 0.7,
-          SUNRAYS: true,
-          SUNRAYS_RESOLUTION: 196,
+          SUNRAYS: !isMobileOrLowEnd,
+          SUNRAYS_RESOLUTION: isMobileOrLowEnd ? 0 : 196,
           SUNRAYS_WEIGHT: 1.0,
         });
       } catch (err) {
